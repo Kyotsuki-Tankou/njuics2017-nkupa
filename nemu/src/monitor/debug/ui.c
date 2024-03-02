@@ -8,8 +8,6 @@
 #include <readline/history.h>
 
 void cpu_exec(uint64_t);
-void print_wp();
-void isa_reg_display();
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
   static char *line_read = NULL;
@@ -87,7 +85,7 @@ static int cmd_si(char *args){
 static int cmd_info(char *args){
 	char *arg = strtok(NULL," ");
 	if(strcmp(arg,"w")==0){
-		print_wp();
+	//	print_wp();
 		return 0;
 	}
 	else
@@ -96,7 +94,14 @@ static int cmd_info(char *args){
 		{
 			printf("Wrong input, set to the default settings.\n");
 		}
-		isa_reg_display();
+		printf("eax: %x\n",cpu.eax);
+		printf("ecx: %x\n",cpu.ecx);
+		printf("edx: %x\n",cpu.edx);
+		printf("ebx: %x\n",cpu.ebx);
+                printf("esp: %x\n",cpu.esp);
+		printf("ebp: %x\n",cpu.ebp);
+		printf("esi: %x\n",cpu.esi);
+		printf("edi: %x\n",cpu.edi);
 		return 0;
 	}
 	return 0;
