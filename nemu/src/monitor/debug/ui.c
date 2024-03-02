@@ -56,7 +56,7 @@ long long readNum(char *arg)
 		printf("Input error");
 		return 2147483648;
 	}
-	printf("x=%lld,f=%lld,x*f=%lld",x,f,x*f);
+	//printf("x=%lld,f=%lld,x*f=%lld",x,f,x*f);
 	return x*f;
 }
 static int cmd_si(char *args){
@@ -69,11 +69,12 @@ static int cmd_si(char *args){
 	{
 		uint64_t n=0;
 		n=readNum(arg);
-		if(n==2147483648||n==0)
+		if(n==2147483648||n<=0)
 		{
 			n=1;
 			printf(" Set to the default settings.");
 		}
+		printf("n=%lld",n);
 		cpu_exec(n);
 		return 0;
 	}
