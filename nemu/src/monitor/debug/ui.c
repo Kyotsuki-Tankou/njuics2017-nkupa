@@ -53,7 +53,7 @@ long long readNum(char *arg)
 	}
 	if(*tmpArg!='\0'||x>2147483647||x<-2147483648)
 	{
-		print("Input error");
+		printf("Input error");
 		return 2147483648;
 	}
 	return x*f;
