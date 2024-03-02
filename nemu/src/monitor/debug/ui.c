@@ -67,7 +67,8 @@ static int cmd_si(char *args){
 	}
 	else
 	{
-		uint64_t n=0;
+		long long n=0;
+		uint64_t num=0;
 		n=readNum(arg);
 		if(n==2147483648||n<=0)
 		{
@@ -75,7 +76,8 @@ static int cmd_si(char *args){
 			printf(" Set to the default settings.");
 		}
 		printf("n=%lld",n);
-		cpu_exec(n);
+		num=n;
+		cpu_exec(num);
 		return 0;
 	}
 
