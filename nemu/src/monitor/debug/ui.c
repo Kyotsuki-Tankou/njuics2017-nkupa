@@ -56,6 +56,7 @@ long long readNum(char *arg)
 		printf("Input error");
 		return 2147483648;
 	}
+	printf("x=%lld,f=%lld,x*f=%lld",x,f,x*f);
 	return x*f;
 }
 static int cmd_si(char *args){
