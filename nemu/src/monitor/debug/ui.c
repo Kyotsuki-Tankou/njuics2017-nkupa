@@ -37,7 +37,46 @@ static int cmd_q(char *args) {
 }
 
 /*pa1.1*/
+long long readNum(char *arg)
+{
+	long long x=0,f=1;
+	char *tmpArg=arg;
+	if(*tmpArg=='-')
+	{
+		f=-1;
+		tmpArg++;
+	}
+	while(*tmpArg<='9'&&*tmpArg>='0')
+	{
+		x=x*10+(*tmpArg)-'0';
+		tmpArg++;
+	}
+	if(*tmpArg!='\0'||x>2147483647||x<-2147483648)
+	{
+		print("Input error");
+		return 2147483648;
+	}
+	return x*f;
+}
 static int cmd_si(char *args){
+	char *arg=strtok(NULL," ");
+	if(arg==NULL){
+		cpu_exec(1);
+		return 0;
+	}
+	else
+	{
+		uint64_t n=0;
+		n=readNum(arg);
+		if(n==2147483648||n==0)
+		{
+			n=1;
+			printf(" Set to the default settings.");
+		}
+		cpu_exec(n);
+		return 0;
+	}
+
 	return 0;
 }
 static int cmd_info(char *args){
