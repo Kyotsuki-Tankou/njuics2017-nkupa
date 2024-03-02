@@ -84,13 +84,14 @@ static int cmd_si(char *args){
 }
 static int cmd_info(char *args){
 	char *arg = strtok(NULL," ");
+	if(arg!=NULL){
 	if(strcmp(arg,"w")==0){
 	//	print_wp();
 		return 0;
-	}
+	}}
 	else
 	{
-		if(strcmp(arg,"r")!=0)
+		if(arg!=NULL&&strcmp(arg,"r")!=0)
 		{
 			printf("Wrong input, set to the default settings.\n");
 		}
