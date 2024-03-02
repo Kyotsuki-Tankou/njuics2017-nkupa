@@ -89,12 +89,10 @@ static int cmd_info(char *args){
 	//	print_wp();
 		return 0;
 	}}
-	else
+	if(arg!=NULL&&strcmp(arg,"r")!=0)
 	{
-		if(arg!=NULL&&strcmp(arg,"r")!=0)
-		{
-			printf("Wrong input, set to the default settings.\n");
-		}
+		printf("Wrong input, set to the default settings.\n");
+	}
 		printf("eax: %x\n",cpu.eax);
 		printf("ecx: %x\n",cpu.ecx);
 		printf("edx: %x\n",cpu.edx);
@@ -104,8 +102,6 @@ static int cmd_info(char *args){
 		printf("esi: %x\n",cpu.esi);
 		printf("edi: %x\n",cpu.edi);
 		return 0;
-	}
-	return 0;
 }
 static int cmd_p(char *args){
 	return 0;
