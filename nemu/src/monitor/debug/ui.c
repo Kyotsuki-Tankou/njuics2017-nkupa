@@ -36,6 +36,26 @@ static int cmd_q(char *args) {
   return -1;
 }
 
+/*pa1.1*/
+static int cmd_si(char *args){
+	return 0;
+}
+static int cmd_info(char *args){
+	return 0;
+}
+static int cmd_p(char *args){
+	return 0;
+}
+static int cmd_x(char *args){
+	return 0;
+}
+static int cmd_w(char *args){
+	return 0;
+}
+static int cmd_d(char *args){
+	return 0;
+}
+/*end of pa1.1*/
 static int cmd_help(char *args);
 
 static struct {
@@ -46,9 +66,18 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-
+/*pa1.1*/
+  {"si","Usage: si [N]\n Execute program with N(default:1) step(s)", cmd_si},
+  {"info","Usage: info [r][w]\n [r]:Print values of all registers,"\
+	 " [w]:print all watchpoints (Default:[r])", cmd_info},
+  {"p","Usage: p [EXPR] \n Output the value of the given expression.",cmd_p},
+  {"x","Usage: x [N]  [EXPR] \n Output the value of the given expression."\
+	 "With quadual consequtive bytes starting from the EXPR in hex form.",cmd_x},
+  {"w","Usage: w [EXPR] \n set a watchpoing for [EXPR]"\
+	 "Cease the program when the value of the expression changes",cmd_w},
+  {"d","Usage: d [N] \n Delete watchpoint which id is N",cmd_d}
   /* TODO: Add more commands */
-
+/*end of pa1.1*/
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
