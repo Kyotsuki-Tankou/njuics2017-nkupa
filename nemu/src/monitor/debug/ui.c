@@ -8,7 +8,8 @@
 #include <readline/history.h>
 
 void cpu_exec(uint64_t);
-
+void print_wp();
+void isa_reg_display();
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
   static char *line_read = NULL;
@@ -73,7 +74,7 @@ static int cmd_si(char *args){
 		if(n==2147483648||n<=0)
 		{
 			n=1;
-			printf(" Set to the default settings.");
+			printf(" Set to the default settings.\n");
 		}
 		//printf("n=%lld",n);
 		num=n;
@@ -84,6 +85,20 @@ static int cmd_si(char *args){
 	return 0;
 }
 static int cmd_info(char *args){
+	char *arg = strtok(NULL," ");
+	if(strcmp(arg,"w")==0){
+		print_wp();
+		return 0;
+	}
+	else
+	{
+		if(strcmp(arg,"r")!=0)
+		{
+			printf("Wrong input, set to the default settings.\n");
+		}
+		isa_reg_display();
+		return 0;
+	}
 	return 0;
 }
 static int cmd_p(char *args){
