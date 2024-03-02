@@ -103,11 +103,45 @@ static int cmd_info(char *args){
 		printf("edi: %x\n",cpu.edi);
 		return 0;
 }
-static int cmd_p(char *args){
+static int cmd_x(char *args){
+	/*This is the simplified pa1.1 version*/
+	if(args == NULL){
+		printf("Wrong input, try again\n");
+		return 1;
+	}
+	char *arg = strtok(args," ");
+	if(arg==NULL){
+		printf("Wrong input, try again\n");
+		return 1;
+	}
+	int n=readNum(arg);
+	char *EXPR = strtok(NULL," ");
+	if(EXPR==NULL){
+		printf("Wrong input, try again\n");
+		return 1;
+	}
+	if(strtok(NULL," ")!=NULL){
+		printf("Wrong input, try again\n");
+		return 1;
+	}
+	char *str;
+//	bool flag=true;
+	vaddr_t addr = strtol(arg,&str,16);
+	for(int i=0;i<n;i++)
+	{
+		uint32_t data = vaddr_read(addr+i*4,4);
+		printf("%08x:", addr+i*4);
+		for(int j=0;j<4;j++)
+		{
+			printf("%0x02x",data & 0xff);
+			data=data>>8;
+		}
+		printf("\n");
+	}
 	return 0;
 }
-static int cmd_x(char *args){
-	return 0;
+static int cmd_p(char *args){
+	        return 0;
 }
 static int cmd_w(char *args){
 	return 0;
