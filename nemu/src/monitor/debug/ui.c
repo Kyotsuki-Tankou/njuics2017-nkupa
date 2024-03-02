@@ -75,7 +75,7 @@ static int cmd_si(char *args){
 			n=1;
 			printf(" Set to the default settings.");
 		}
-		printf("n=%lld",n);
+		//printf("n=%lld",n);
 		num=n;
 		cpu_exec(num);
 		return 0;
