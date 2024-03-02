@@ -133,7 +133,7 @@ static int cmd_x(char *args){
 		printf("%08x:", addr+i*4);
 		for(int j=0;j<4;j++)
 		{
-			printf("%0x02x",data & 0xff);
+			printf("%02x",data & 0xff);
 			data=data>>8;
 		}
 		printf("\n");
