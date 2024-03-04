@@ -34,8 +34,8 @@ static struct rule {
   {"\\(",TK_LBR},//left breacket
   {"\\)",TK_RBR},//right bracket
   {"\\$[a-zA-Z]+",TK_REG},//register
-  {"&&",TK_AND},//
-  {"\\|\\|",TK_OR},//
+  {"&&",TK_AND},//AND
+  {"\\|\\|",TK_OR},//OR
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -71,7 +71,7 @@ static bool make_token(char *e) {
   int position = 0;
   int i;
   regmatch_t pmatch;
-
+  token_count=64;
   nr_token = 0;
 
   while (e[position] != '\0') {
@@ -89,9 +89,25 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-
+        if(substr_len>=32){
+            printf("This substring lengths is too long(position:%d). \n",position);
+            return false;
+        }
+        if(nr_token>=token_count)
+        {
+            printf("The number of tokens(%d) more than maximum(%d)",nr_token,token_count);
+            return false;
+        }
         switch (rules[i].token_type) {
-          default: TODO();
+        case TK_NOTYPE:break;
+        case TK_NUM:
+        case TK_HEX:
+        case TK_REG:
+            strncpy(token[nr_token].str,substr_start,substr_len);
+            token[nr_token].str[substr_len]='\0';
+        default: 
+            tokens[nr_token].type=rules[i].token_type;
+            nr_token++;
         }
 
         break;
