@@ -122,7 +122,59 @@ static bool make_token(char *e) {
 
   return true;
 }
-
+/*pa1.3 auxiliary functions*/
+int is_op(int op)
+{
+    bool flag=0;
+    switch(op):{
+    case TK_ADD:
+    case TK_SUB:
+    case TK_EQ:
+    case TK_OR:
+    case TK_AND:
+    case TK_MUT:
+    case TK_DIV:
+    case TK_DEREF:
+        flag=1;
+        break;
+    default:
+        flag=0;
+    }
+    return flag;
+}
+int prio(int op)//priority of token
+{
+    int p;
+    switch(op):{
+    case TK_OR:
+        p=1;
+        break;
+    case TK_AND:
+        p=2;
+        break;
+    case TK_EQ:
+        p=3;
+        break;
+    case TK_ADD:
+    case TK_SUB:
+        p=4;
+        break;
+    case TK_MUT:
+    case TK_DIV:
+        p=5;
+        break;
+    case TK_DEREF:
+        p=6;
+        break;
+    default:
+        p=7;
+        break;
+    }
+}
+int comp(int i,int j)//compare priority between 2 tokens
+{
+    return prio(tokens[i].type)<prio(tokens[j].type)?-1:(prio(tokens[i].type)==prio(tokens[j].type)?0:1);
+}
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
