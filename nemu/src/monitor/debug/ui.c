@@ -3,11 +3,13 @@
 #include "monitor/watchpoint.h"
 #include "nemu.h"
 
+
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
 void cpu_exec(uint64_t);
+uint32_t expr(char *e,bool *success);
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
   static char *line_read = NULL;
@@ -140,16 +142,28 @@ static int cmd_x(char *args){
 	}
 	return 0;
 }
+/*end of pa1.1*/
+/*pa1.2*/
+
 static int cmd_p(char *args){
-	        return 0;
+	if(args == NULL)  return 0;
+	bool flag = 1;
+	uint32_t value = expr(args, &flag);
+	if(flag)
+	{
+		printf("%u(0x%08x)\n",value,value);
+	}
+	return 0;
 }
+/*end of pa1.2*/
+/*pa1.3*/
 static int cmd_w(char *args){
 	return 0;
 }
 static int cmd_d(char *args){
 	return 0;
 }
-/*end of pa1.1*/
+
 static int cmd_help(char *args);
 
 static struct {
