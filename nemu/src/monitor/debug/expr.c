@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ,TK_NUM,TK_ADD,TK_SUB,TK_HEX,TK_NUM,
+  TK_NOTYPE = 256, TK_EQ,TK_NUM,TK_ADD,TK_SUB,TK_HEX,TK_AND,
   TK_MUT,TK_DIV,TK_LBR,TK_RBR,TK_REG,TK_OR,TK_DEREF
 
   /* TODO: Add more token types */
@@ -71,7 +71,7 @@ static bool make_token(char *e) {
   int position = 0;
   int i;
   regmatch_t pmatch;
-  token_count=64;
+  int token_count=64;
   nr_token = 0;
 
   while (e[position] != '\0') {
@@ -103,8 +103,8 @@ static bool make_token(char *e) {
         case TK_NUM:
         case TK_HEX:
         case TK_REG:
-            strncpy(token[nr_token].str,substr_start,substr_len);
-            token[nr_token].str[substr_len]='\0';
+            strncpy(tokens[nr_token].str,substr_start,substr_len);
+            tokens[nr_token].str[substr_len]='\0';
         default: 
             tokens[nr_token].type=rules[i].token_type;
             nr_token++;
@@ -125,8 +125,8 @@ static bool make_token(char *e) {
 /*pa1.3 auxiliary functions*/
 int is_op(int op)
 {
-    bool flag=0;
-    switch(op):{
+    int flag=0;
+    switch(op){
     case TK_ADD:
     case TK_SUB:
     case TK_EQ:
@@ -145,7 +145,7 @@ int is_op(int op)
 int prio(int op)//priority of token
 {
     int p;
-    switch(op):{
+    switch(op){
     case TK_OR:
         p=1;
         break;
@@ -170,10 +170,19 @@ int prio(int op)//priority of token
         p=7;
         break;
     }
+    return p;
 }
 int comp(int i,int j)//compare priority between 2 tokens
 {
     return prio(tokens[i].type)<prio(tokens[j].type)?-1:(prio(tokens[i].type)==prio(tokens[j].type)?0:1);
+}
+uint32_t eval(int p,int q,bool *success)
+{
+    if(p>q);
+    else if(p==q)
+    {
+    }
+	return 0;
 }
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
