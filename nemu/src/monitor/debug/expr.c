@@ -214,14 +214,14 @@ uint32_t exitFailed(bool *success)
 uint32_t reg2str(char *str,bool *success)
 {
     uint32_t val=0;
-    if(str=="eax"){val=cpu.eax;return val;}
-    if(str=="ebx"){val=cpu.ebx;return val;}
-    if(str=="ecx"){val=cpu.ecx;return val;}
-    if(str=="edx"){val=cpu.edx;return val;}
-    if(str=="esp"){val=cpu.esp;return val;}
-    if(str=="esi"){val=cpu.esi;return val;}
-    if(str=="ebp"){val=cpu.ebp;return val;}
-    if(str=="edi"){val=cpu.edi;return val;}
+    if(strcmp(str,"eax")==0){val=cpu.eax;return val;}
+    if(strcmp(str,"ebx")==0){val=cpu.ebx;return val;}
+    if(strcmp(str,"ecx")==0){val=cpu.ecx;return val;}
+    if(strcmp(str,"edx")==0){val=cpu.edx;return val;}
+    if(strcmp(str,"esp")==0){val=cpu.esp;return val;}
+    if(strcmp(str,"esi")==0){val=cpu.esi;return val;}
+    if(strcmp(str,"ebp")==0){val=cpu.ebp;return val;}
+    if(strcmp(str,"edi")==0){val=cpu.edi;return val;}
     success=false;
     return val;
 }
@@ -236,7 +236,7 @@ uint32_t eval(int p,int q,bool *success)
         }
         else if(type==TK_REG)
         {
-            val=reg2str(tokens[p].str+1,success);
+            uint32_t val=reg2str(tokens[p].str+1,success);
             if(*success)  return val;
             else
             {
@@ -303,7 +303,7 @@ uint32_t expr(char *e, bool *success) {
         {
             flag=j;
             type=tokens[j].type;
-            if(type=TK_SUB)  f*=-1;
+            if(type==TK_SUB) f*=-1;
         }
         if(flag-i>0)
         {
