@@ -179,7 +179,7 @@ int comp(int i,int j)//compare priority between 2 tokens   -1:i<j  0:i==j 1:i>j 
 }
 int check_part(int p,int q)
 {
-    int top=0,i;
+    int top=0;
     for(int i=0;i<=q;i++)
     {
         if(tokens[i].type==TK_LBR)  top++;
@@ -213,20 +213,15 @@ uint32_t exitFailed(bool *success)
 uint32_t reg2str(char *str,bool *success)
 {
     uint32_t val=0;
-    switch(str)
-    {
-        case "eax":val=cpu.eax;break;
-        case "ebx":val=cpu.ebx;break;
-        case "ecx":val=cpu.ecx;break;
-        case "edx":val=cpu.edx;break;
-        case "esp":val=cpu.esp;break;
-        case "ebp":val=cpu.ebp;break;
-        case "esi":val=cpu.esi;break;
-        case "edi":val=cpu.edi;break;
-        default:
-            *success=false;
-            break;
-    }
+    if(str=="eax"){val=cpu.eax;return val;}
+    if(str=="ebx"){val=cpu.ebx;return val;}
+    if(str=="ecx"){val=cpu.ecx;return val;}
+    if(str=="edx"){val=cpu.edx;return val;}
+    if(str=="esp"){val=cpu.esp;return val;}
+    if(str=="esi"){val=cpu.esi;return val;}
+    if(str=="ebp"){val=cpu.ebp;return val;}
+    if(str=="edi"){val=cpu.edi;return val;}
+    success=false;
     return val;
 }
 uint32_t eval(int p,int q,bool *success)
