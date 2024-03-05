@@ -3,6 +3,7 @@
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
  */
+#include<stdlib.h>
 #include <sys/types.h>
 #include <regex.h>
 
@@ -265,7 +266,7 @@ uint32_t eval(int p,int q,bool *success)
     if(*success==0)  return 0;
     val2=eval(pos+1,q,success);
     if(*success==0)  return 0;
-    switch(tokens[pos].type0)
+    switch(tokens[pos].type)
     {
     case TK_ADD:  val=val1+val2;break;
     case TK_SUB:  val=val1-val2;break;
@@ -302,8 +303,7 @@ uint32_t expr(char *e, bool *success) {
         {
             flag=j;
             type=tokens[j].type;
-            if(type=TK_ADD)  f*=1;
-            else f*=-1;
+            if(type=TK_SUB)  f*=-1;
         }
         if(flag-i>0)
         {
