@@ -99,7 +99,7 @@ static int cmd_info(char *args){
 		printf("ecx: %x\n",cpu.ecx);
 		printf("edx: %x\n",cpu.edx);
 		printf("ebx: %x\n",cpu.ebx);
-                printf("esp: %x\n",cpu.esp);
+    printf("esp: %x\n",cpu.esp);
 		printf("ebp: %x\n",cpu.ebp);
 		printf("esi: %x\n",cpu.esi);
 		printf("edi: %x\n",cpu.edi);

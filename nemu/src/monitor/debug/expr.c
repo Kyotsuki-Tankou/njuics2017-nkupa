@@ -172,20 +172,105 @@ int prio(int op)//priority of token
     }
     return p;
 }
-int comp(int i,int j)//compare priority between 2 tokens
+int comp(int i,int j)//compare priority between 2 tokens   -1:i<j  0:i==j 1:i>j 2:wrong
 {
+    if(i<0||j<0) return 2;
     return prio(tokens[i].type)<prio(tokens[j].type)?-1:(prio(tokens[i].type)==prio(tokens[j].type)?0:1);
+}
+int check_part(int p,int q)
+{
+    int top=0,i;
+    for(int i=0;i<=q;i++)
+    {
+        if(tokens[i].type==TK_LBR)  top++;
+        if(tokens[i].type==TK_RBR)  top--;
+        if(top<0)  return 1;
+    }
+    if(top!=0)  return 1;
+    return 0;
+}
+int check_parentheses(int p,int q)
+/*
+-1:invalid
+0:valid, but without brackets
+1:valid and with brackets
+*/
+{
+    
+    int flag=check_part(p,q);
+    if(flag)  return -1;
+    if(!(tokens[p].type==TK_LBR&&tokens[q].type==TK_RBR))  return 0;
+    flag=check_part(p+1,q-1);
+    if(flag)  return 0;
+    else  return 1;
+}
+uint32_t exitFailed(bool *success)
+{
+    printf("Wrong expression\n");
+    *success=false;
+    return 0;
+}
+uint32_t reg2str(char *str,bool *success)
+{
+    uint32_t val=0;
+    switch(str)
+    {
+        case "eax":val=cpu.eax;break;
+        case "ebx":val=cpu.ebx;break;
+        case "ecx":val=cpu.ecx;break;
+        case "edx":val=cpu.edx;break;
+        case "esp":val=cpu.esp;break;
+        case "ebp":val=cpu.ebp;break;
+        case "esi":val=cpu.esi;break;
+        case "edi":val=cpu.edi;break;
+        default:
+            *success=false;
+            break;
+    }
+    return val;
 }
 uint32_t eval(int p,int q,bool *success)
 {
-    if(p>q);
+    if(p>q)  return exitFailed(success);
     else if(p==q)
     {
+        int type=tokens[p].type;
+        if(type==TK_NUM||type==TK_HEX){
+            return strtoul(tokens[p].str,NULL,0);
+        }
+        else if(type==TK_REG)
+        {
+            val=reg2str(tokens[p].str+1,success);
+            if(*success)  return val;
+            else
+            {
+                   printf("Unknown register %s\n",tokens[p].str);
+                   return 0;
+            }
+            return exitFailed(success);
+        }
     }
+    int flag=check_parentheses(p,q);
+    if(flag==-1)  return exitFailed(success);
+    if(flag==1)  return eval(p+1,q-1,success);
+    uint32_t val1=0,val2=0,val=0;
+    int pos=-1;
+    for(int i=p;i<=q;i++)
+    {
+        int bracket=0;
+        if(bracket==0&&is_op(tokens[i].type))
+        {
+            if(pos==-1||comp(i,pos)<=0)  pos=i;
+        }
+        else if(tokens[i].type==TK_LBR)  bracket++;
+        else if(tokens[i].type==TK_RBR)  bracket--;
+    }
+    if(pos==-1)  return;
+
 	return 0;
 }
 uint32_t expr(char *e, bool *success) {
-  if (!make_token(e)) {
+  if (!make_token(e)) { 
     *success = false;
     return 0;
   }
