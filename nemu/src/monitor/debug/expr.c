@@ -296,7 +296,41 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
-
-  return 0;
+  int type;
+  for(int i=0;i<nr_token;i++)
+  {
+    type=tokens[i].type;
+    if(type==TK_ADD||type==TK_SUB)
+    {
+        int f=1,flag;
+        for(int j=i;j<nr_token&&(type==TK_ADD||type==TK_SUB);j++)
+        {
+            flag=j;
+            type=tokens[j].type;
+            if(type=TK_ADD)  f*=1;
+            else f*=-1;
+        }
+        if(flag-i>0)
+        {
+            if(flag==1)  tokens[i].type=TK_ADD;
+            else  tokens[i].type=TK_SUB;
+            for(int j=i;j<=flag;j++)
+            {
+                tokens[j]=tokens[j+(flag-i)];
+            }
+            nr_token-=flag-i;
+        }
+    }
+  }
+  for(int i=0;i<nr_token;i++)
+  {
+    if(tokens[i].type==TK_MUT&&(i==0||is_op(tokens[i-1].type)))
+    {
+        if(i==0)  tokens[i].type=TK_DEREF;
+        else if(tokens[i-1].type!=TK_DEREF) tokens[i].type=TK_DEREF;
+    }
+  }
+  uint32_t val;
+  val=eval(0,nr_token-1,success);
+  return val;
 }
