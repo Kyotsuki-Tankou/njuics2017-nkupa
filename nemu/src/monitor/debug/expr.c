@@ -205,9 +205,9 @@ int check_parentheses(int p,int q)
     if(flag)  return 0;
     else  return 1;
 }
-uint32_t exitFailed(bool *success)
+uint32_t exitFailed(bool *success,int p,int q)
 {
-    printf("Wrong expression\n");
+    printf("Wrong expression from %d to %d\n",p,q);
     *success=false;
     return 0;
 }
@@ -227,7 +227,7 @@ uint32_t reg2str(char *str,bool *success)
 }
 uint32_t eval(int p,int q,bool *success)
 {
-    if(p>q)  return exitFailed(success);
+    if(p>q)  return exitFailed(success,p,q);
     else if(p==q)
     {
         int type=tokens[p].type;
@@ -243,11 +243,11 @@ uint32_t eval(int p,int q,bool *success)
                    printf("Unknown register %s\n",tokens[p].str);
                    return 0;
             }
-            return exitFailed(success);
+            return exitFailed(success,p,q);
         }
     }
     int flag=check_parentheses(p,q);
-    if(flag==-1)  return exitFailed(success);
+    if(flag==-1)  return exitFailed(success,p,q);
     if(flag==1)  return eval(p+1,q-1,success);
     uint32_t val1=0,val2=0,val=0;
     int pos=-1;
@@ -261,7 +261,7 @@ uint32_t eval(int p,int q,bool *success)
         else if(tokens[i].type==TK_LBR)  bracket++;
         else if(tokens[i].type==TK_RBR)  bracket--;
     }
-    if(pos==-1)  return exitFailed(success);
+    if(pos==-1)  return exitFailed(success,p,q);
     if(tokens[pos].type!=TK_DEREF)  val1=eval(p,pos-1,success);
     if(*success==0)  return 0;
     val2=eval(pos+1,q,success);
@@ -275,13 +275,13 @@ uint32_t eval(int p,int q,bool *success)
         if(val2==0)
         {
             printf("Can't divide by 0\n ");
-            return exitFailed(success);
+            return exitFailed(success,p,q);
         }  val=val1+val2;break;
     case TK_AND:  val=val1&&val2;break;
     case TK_OR:  val=val1||val2;break;
     case TK_EQ:  val=val1==val2;break;
     case TK_DEREF:  val=vaddr_read(val2,4);break;
-    default:  printf("Unknown type.");return exitFailed(success);break;
+    default:  printf("Unknown type.");return exitFailed(success,p,q);break;
     }
 	return val;
 }
