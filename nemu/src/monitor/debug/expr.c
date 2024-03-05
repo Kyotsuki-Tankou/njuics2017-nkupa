@@ -265,9 +265,29 @@ uint32_t eval(int p,int q,bool *success)
         else if(tokens[i].type==TK_LBR)  bracket++;
         else if(tokens[i].type==TK_RBR)  bracket--;
     }
-    if(pos==-1)  return;
-
-	return 0;
+    if(pos==-1)  return exitFailed(success);
+    if(tokens[pos].type!=TK_DEREF)  val1=eval(p,pos-1,success);
+    if(*success==0)  return 0;
+    val2=eval(pos+1,q,success);
+    if(*success==0)  return 0;
+    switch(tokens[pos].type0)
+    {
+    case TK_ADD:  val=val1+val2;break;
+    case TK_SUB:  val=val1-val2;break;
+    case TK_MUT:  val=val1*val2;break;
+    case TK_DIV:  
+        if(val2==0)
+        {
+            printf("Can't divide by 0\n ");
+            return exitFailed(success);
+        }  val=val1+val2;break;
+    case TK_AND:  val=val1&&val2;break;
+    case TK_OR:  val=val1||val2;break;
+    case TK_EQ:  val=val1==val2;break;
+    case TK_DEREF:  val=vaddr_read(val2,4);break;
+    default:  printf("Unknown type.");return exitFailed(success);break;
+    }
+	return val;
 }
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) { 
