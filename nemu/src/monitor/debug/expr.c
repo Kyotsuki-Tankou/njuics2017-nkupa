@@ -72,6 +72,11 @@ typedef struct token {
 Token tokens[32];
 int nr_token;
 
+void dbg()
+{
+    for(int i=0;i<nr_token;i++)  printf("%d ",tokens[i].type);
+    printf("\n");
+}
 static bool make_token(char *e) {
   int position = 0;
   int i;
@@ -201,8 +206,9 @@ int check_parentheses(int p,int q)
 1:valid and with brackets
 */
 {
-    
+    dbg();
     int flag=check_part(p,q);
+    dbg();
     if(flag)  return -1;
     if(!(tokens[p].type==TK_LBR&&tokens[q].type==TK_RBR))  return 0;
     flag=check_part(p+1,q-1);
