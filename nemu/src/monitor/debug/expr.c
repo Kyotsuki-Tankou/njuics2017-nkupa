@@ -196,7 +196,7 @@ int check_part(int p,int q)
         if(tokens[i].type==TK_RBR)  top--,flag++;
         if(top<0)  return 1;
     }
-    if(top!=0&&flag)  return 1;
+    if(top!=0)  return 1;
     return 0;
 }
 int check_parentheses(int p,int q)
