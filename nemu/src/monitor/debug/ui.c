@@ -14,6 +14,7 @@ void init_wp_pool();
 WP* newWp();
 void delWp(int n);
 void freeWp(WP *wp);
+void wpTrav();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -93,7 +94,7 @@ static int cmd_info(char *args){
 	char *arg = strtok(NULL," ");
 	if(arg!=NULL){
 	if(strcmp(arg,"w")==0){
-	//	print_wp();
+		wpTrav();
 		return 0;
 	}}
 	if(arg!=NULL&&strcmp(arg,"r")!=0)
