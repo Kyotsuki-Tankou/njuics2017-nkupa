@@ -269,7 +269,7 @@ uint32_t eval(int p,int q,bool *success)
         if(bracket==0&&is_op(tokens[i].type))
         {
             if(pos==-1)  pos=i;
-            else if(comp(i,pos)<=0)  pos=i;
+            else if(comp(i,pos)<0)  pos=i;
         }
         else if(tokens[i].type==TK_LBR)  bracket++;
         else if(tokens[i].type==TK_RBR)  bracket--;
