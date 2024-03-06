@@ -143,7 +143,7 @@ bool changedWp()
     now_val=tail->value;
     if(now_val!=new_val)
     {
-      printf("Watchpoint %d: %s\n Old value = [%u-%08x] changed to the new value = [%u-%08x].\n",tail->NO,tail->str,now_val,now_val,new_val,new_val);
+      printf("Watchpoint %d: %s\n Old value = [%u-%#08x] changed to the new value = [%u-%#08x].\n",tail->NO,tail->str,now_val,now_val,new_val,new_val);
       changed=true;
       tail->value=new_val;
     }
