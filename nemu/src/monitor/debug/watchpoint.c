@@ -109,7 +109,7 @@ bool changedWp()
   bool changed=0;
   WP *wp=head;
   uint32_t now_val,new_val;
-  printf("%d\n",wp->value);
+  printf("1111\n");
   while(wp!=NULL&&wp!=tail)
   {
     bool success=1;
