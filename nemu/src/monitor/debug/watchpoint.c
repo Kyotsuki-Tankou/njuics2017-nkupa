@@ -72,7 +72,7 @@ void wpTrav()
     return;
   }
   WP *tmp=head;
-  while(tmp!=tail)
+  while(tmp!=tail&&tmp!=NULL)
   {
     printf("%d %s %u (%#x)\n",tmp->NO,tmp->str,tmp->value,tmp->value);
     tmp=tmp->next;
