@@ -77,7 +77,7 @@ void wpTrav()
     printf("%d %s %u (%#x)\n",tmp->NO,tmp->str,tmp->value,tmp->value);
     tmp=tmp->next;
   }
-  printf("%d %s %u (%#x)\n",tail->NO,tail->tmp,tail->value,tail->value);
+  printf("%d %s %u (%#x)\n",tail->NO,tail->str,tail->value,tail->value);
   return;
 }
 

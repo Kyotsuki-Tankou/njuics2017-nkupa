@@ -198,7 +198,7 @@ static int cmd_d(char *args){
 	char *arg=strtok(NULL," ");
 	if(arg==NULL)  return 0;
 	int n;
-	scanf("%d",&n);
+	sscanf(arg,"%d",&n);
 	delWp(n);
 	return 0;
 }
