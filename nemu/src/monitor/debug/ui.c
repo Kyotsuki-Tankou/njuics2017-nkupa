@@ -141,10 +141,9 @@ static int cmd_x(char *args){
 		// 	data=data>>8;
 		// }
 		// printf("\n");
-		printf("%d\n",i);
 		printf("0x%08x:",val);
-		printf("111-%d\n",i);
-		printf("0x%08x\n",instr_fetch(&val,4));
+		uint32_t res=instr_fetch(&val,4);
+		printf("0x%08x\n",res);
 	}
 	printf("114");
 	return 0;
