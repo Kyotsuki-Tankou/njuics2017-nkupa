@@ -1,8 +1,8 @@
 #include "nemu.h"
 
 /*
- NUM HEX AND OR EQ MUT REG: OK
- ADD SUB DIV LBR RBR: bugs remain
+ NUM HEX AND OR EQ MUT REG ADD SUB DIV: OK
+ LBR RBR: bugs remain
 */
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
