@@ -121,8 +121,11 @@ static int cmd_x(char *args){
 	char *expr1 = strtok(NULL," ");
 	if(expr1==NULL){printf("Wrong input\n");return 0;}
 	char *expr2=strtok(NULL," ");
+	int t=0;
 	while(expr2!=NULL)
 	{
+		t++;
+		printf("%d\n",t);
 		strcat(expr1,expr2);
 		expr2=strtok(NULL," ");
 	}
