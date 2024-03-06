@@ -290,7 +290,7 @@ uint32_t eval(int p,int q,bool *success)
         {
             printf("Can't divide by 0\n ");
             return exitFailed(success,p,q);
-        }  val=val1+val2;break;
+        }  val=val1/val2;break;
     case TK_AND:  val=val1&&val2;break;
     case TK_OR:  val=val1||val2;break;
     case TK_EQ:  val=val1==val2;break;
