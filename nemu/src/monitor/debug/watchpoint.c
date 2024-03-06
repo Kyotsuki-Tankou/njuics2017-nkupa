@@ -110,11 +110,14 @@ bool changedWp()
   WP *wp=head;
   bool flags=1;
   uint32_t now_val,new_val;
-  printf("%u\n",wp->value);
-  printf("%s\n",wp->str);
-  printf("%u\n",expr(wp->str,&flags));
+  // printf("%u\n",wp->value);
+  // printf("%s\n",wp->str);
+  // printf("%u\n",expr(wp->str,&flags));
   while(wp!=NULL&&wp!=tail)
   {
+      printf("%u\n",wp->value);
+      printf("%s\n",wp->str);
+      printf("%u\n",expr(wp->str,&flags));
     bool success=1;
     new_val=expr(wp->str,&success);
     printf("%d\n",wp->value);
