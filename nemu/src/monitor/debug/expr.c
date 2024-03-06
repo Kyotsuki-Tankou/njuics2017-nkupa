@@ -206,9 +206,7 @@ int check_parentheses(int p,int q)
 1:valid and with brackets
 */
 {
-    dbg();
     int flag=check_part(p,q);
-    dbg();
     if(flag)  return -1;
     if(!(tokens[p].type==TK_LBR&&tokens[q].type==TK_RBR))  return 0;
     flag=check_part(p+1,q-1);
@@ -270,7 +268,8 @@ uint32_t eval(int p,int q,bool *success)
         int bracket=0;
         if(bracket==0&&is_op(tokens[i].type))
         {
-            if(pos==-1||comp(i,pos)<=0)  pos=i;
+            if(pos==-1)  pos=i;
+            else if(comp(i,pos)<=0)  pos=i;
         }
         else if(tokens[i].type==TK_LBR)  bracket++;
         else if(tokens[i].type==TK_RBR)  bracket--;
