@@ -113,6 +113,7 @@ bool changedWp()
   {
     bool success=1;
     new_val=expr(wp->str,&success);
+    printf("%d\n",wp->value);
     Assert(success,"Watchpoint expressions are needed to be success.\n");
     now_val=wp->value;
     if(now_val!=new_val)
