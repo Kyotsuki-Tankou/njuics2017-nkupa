@@ -108,19 +108,19 @@ bool changedWp()
 {
   bool changed=0;
   WP *wp=head;
-  bool flags=1;
+  // bool flags=1;
   uint32_t now_val,new_val;
   // printf("%u\n",wp->value);
   // printf("%s\n",wp->str);
   // printf("%u\n",expr(wp->str,&flags));
   while(wp!=tail)
   {
-    printf("%u\n",wp->value);
-    printf("%s\n",wp->str);
-    printf("%u\n",expr(wp->str,&flags));
+    // printf("%u\n",wp->value);
+    // printf("%s\n",wp->str);
+    // printf("%u\n",expr(wp->str,&flags));
     bool success=1;
     new_val=expr(wp->str,&success);
-    printf("%d\n",wp->value);
+    // printf("%d\n",wp->value);
     Assert(success,"Watchpoint expressions are needed to be success.\n");
     now_val=wp->value;
     if(now_val!=new_val)
@@ -133,12 +133,12 @@ bool changedWp()
   }
   if(tail!=NULL)
   {
-    printf("%u\n",tail->value);
-    printf("%s\n",tail->str);
-    printf("%u\n",expr(tail->str,&flags));
+    // printf("%u\n",tail->value);
+    // printf("%s\n",tail->str);
+    // printf("%u\n",expr(tail->str,&flags));
     bool success=1;
     new_val=expr(tail->str,&success);
-    printf("%d\n",tail->value);
+    // printf("%d\n",tail->value);
     Assert(success,"Watchpoint expressions are needed to be success.\n");
     now_val=tail->value;
     if(now_val!=new_val)
