@@ -114,25 +114,21 @@ static int cmd_info(char *args){
 }
 static int cmd_x(char *args){
 	/*This is the simplified pa1.1 version*/
-	printf("1\n");
 	char *arg = strtok(args," ");
-	printf("2\n");
 	if(arg==NULL){printf("Wrong input\n");return 0;}
 	int n;
-	printf("3\n");
 	sscanf(arg,"%d",&n);
-	printf("4\n");
 	char *expr1 = strtok(NULL," ");
-	printf("5\n");
 	if(expr1==NULL){printf("Wrong input\n");return 0;}
 	char *expr2=strtok(NULL," ");
-	printf("6\n");
+	printf("7\n");
 	while(expr2!=NULL)
 	{
-		printf("7\n");
+		printf("8\n");
 		strcat(expr1,expr2);
 		expr2=strtok(NULL," ");
 	}
+	if(expr1==NULL){printf("Wrong input\n");return 0;}
 	bool flag=true;
 	// vaddr_t addr = strtol(EXPR,&str,16);	
 	uint32_t val=expr(expr1,&flag);
