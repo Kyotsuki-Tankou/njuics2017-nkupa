@@ -143,6 +143,7 @@ static int cmd_x(char *args){
 		// printf("\n");
 		printf("%d\n",i);
 		printf("0x%08x:",val);
+		printf("111-%d\n",i);
 		printf("0x%08x\n",instr_fetch(&val,4));
 	}
 	printf("114");
