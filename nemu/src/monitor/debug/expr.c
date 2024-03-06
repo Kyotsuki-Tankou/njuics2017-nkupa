@@ -317,7 +317,7 @@ uint32_t expr(char *e, bool *success) {
             {
                 tokens[j]=tokens[j+(flag-i)];
             }
-            nr_token-=flag-i;
+            nr_token-=flag-i-1;
         }
     }
   }
