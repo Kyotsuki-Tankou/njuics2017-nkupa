@@ -113,11 +113,11 @@ bool changedWp()
   // printf("%u\n",wp->value);
   // printf("%s\n",wp->str);
   // printf("%u\n",expr(wp->str,&flags));
-  while(wp!=NULL)
+  while(wp!=tail)
   {
-      printf("%u\n",wp->value);
-      printf("%s\n",wp->str);
-      printf("%u\n",expr(wp->str,&flags));
+    printf("%u\n",wp->value);
+    printf("%s\n",wp->str);
+    printf("%u\n",expr(wp->str,&flags));
     bool success=1;
     new_val=expr(wp->str,&success);
     printf("%d\n",wp->value);
@@ -131,5 +131,22 @@ bool changedWp()
     }
     wp=wp->next;
   }
-    return changed;
+  if(tail!=NULL)
+  {
+    printf("%u\n",tail->value);
+    printf("%s\n",tail->str);
+    printf("%u\n",expr(tail->str,&flags));
+    bool success=1;
+    new_val=expr(tail->str,&success);
+    printf("%d\n",tail->value);
+    Assert(success,"Watchpoint expressions are needed to be success.\n");
+    now_val=tail->value;
+    if(now_val!=new_val)
+    {
+      printf("Watchpoint %d: %s\n Old value = [%u] changed to the new value = [%u].\n",tail->NO,tail->str,now_val,new_val);
+      changed=true;
+      tail->value=new_val;
+    }
+  }
+  return changed;
 }
