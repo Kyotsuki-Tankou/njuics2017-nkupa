@@ -109,7 +109,7 @@ bool changedWp()
   bool changed=0;
   WP *wp=head;
   uint32_t now_val,new_val;
-  while(wp!=NULL)
+  while(wp!=NULL&&wp!=tail)
   {
     bool success=1;
     new_val=expr(wp->str,&success);
