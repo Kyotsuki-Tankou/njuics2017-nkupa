@@ -329,6 +329,10 @@ uint32_t expr(char *e, bool *success) {
         else if(tokens[i-1].type!=TK_DEREF) tokens[i].type=TK_DEREF;
     }
   }
+  for(int i=0;i<nr_token;i++)
+  {
+    printf("%d",tokens[i].type);
+  }
   uint32_t val;
   val=eval(0,nr_token-1,success);
   return val;
