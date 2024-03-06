@@ -273,7 +273,7 @@ uint32_t eval(int p,int q,bool *success)
         else if(tokens[i].type==TK_LBR)  bracket++;
         else if(tokens[i].type==TK_RBR)  bracket--;
     }
-    printf("pos:%d\n",pos);
+    // printf("pos:%d\n",pos);
     if(pos==-1)  return exitFailed(success,p,q);
     if(tokens[pos].type!=TK_DEREF)  val1=eval(p,pos-1,success);
     if(*success==0)  return 0;
