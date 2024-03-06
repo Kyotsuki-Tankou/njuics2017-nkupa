@@ -233,12 +233,10 @@ uint32_t eval(int p,int q,bool *success)
 {
     if(p>q)
     {
-        printf("2 %d %d\n",p,q);
         return exitFailed(success,p,q);   
     }  
     else if(p==q)
     {
-        printf("2\n");
         int type=tokens[p].type;
         if(type==TK_NUM||type==TK_HEX){
             return strtoul(tokens[p].str,NULL,0);
@@ -256,6 +254,7 @@ uint32_t eval(int p,int q,bool *success)
         }
     }
     int flag=check_parentheses(p,q);
+    printf("flag:%d\n",flag);
     if(flag==-1)  return exitFailed(success,p,q);
     if(flag==1)  return eval(p+1,q-1,success);
     uint32_t val1=0,val2=0,val=0;
