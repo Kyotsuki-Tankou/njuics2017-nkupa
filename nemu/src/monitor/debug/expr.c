@@ -184,14 +184,14 @@ int comp(int i,int j)//compare priority between 2 tokens   -1:i<j  0:i==j 1:i>j 
 }
 int check_part(int p,int q)
 {
-    int top=0;
+    int top=0,flag=0;
     for(int i=0;i<=q;i++)
     {
-        if(tokens[i].type==TK_LBR)  top++;
-        if(tokens[i].type==TK_RBR)  top--;
+        if(tokens[i].type==TK_LBR)  top++,flag++;
+        if(tokens[i].type==TK_RBR)  top--,flag++;
         if(top<0)  return 1;
     }
-    if(top!=0)  return 1;
+    if(top!=0&&flag)  return 1;
     return 0;
 }
 int check_parentheses(int p,int q)
