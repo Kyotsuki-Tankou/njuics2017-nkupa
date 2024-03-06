@@ -158,11 +158,40 @@ static int cmd_p(char *args){
 /*end of pa1.2*/
 /*pa1.3*/
 static int cmd_w(char *args){
+	bool success=1;
+	if(args==NULL)
+	{
+		printf("Please input the expression.\n");
+		return 0;
+	}
+	char *arg=strtok(NULL," ");
+	if(arg==NULL)
+	{
+		printf("Wrong input, try again.\n");
+		return 0;
+	}
+	char *argg=strtok(NULL," ");
+	while(argg!=NULL)
+	{
+		strcat(arg,argg);
+		argg=strtok(NULL," ");
+	}
+	if(arg==NULL)  return 0;
+	WP* wp=newWp();
+	memset(wp->str,0,sizeof(wp->str));
+	strcpy(wp->str,arg);
+	uint32_t res=expr(arg,&success);
+	if(!success)
+	{
+		pritnf("Wrong expression.\n");
+		freeWp(wp);
+	}
 	return 0;
 }
 static int cmd_d(char *args){
 	return 0;
 }
+/*end of pa1.3*/
 
 static int cmd_help(char *args);
 

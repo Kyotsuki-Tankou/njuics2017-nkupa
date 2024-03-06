@@ -4,7 +4,7 @@
 #define NR_WP 32
 
 static WP wp_pool[NR_WP];
-static WP *head, *free_;
+static WP *head, *free_,*tail;
 
 void init_wp_pool() {
   int i;
@@ -15,9 +15,88 @@ void init_wp_pool() {
   wp_pool[NR_WP - 1].next = NULL;
 
   head = NULL;
+  tail = NULL;
   free_ = wp_pool;
 }
 
 /* TODO: Implement the functionality of watchpoint */
 
+WP* newWp()
+{
+  if(free_==NULL)
+  {
+    printf("No Memory!\n");
+    return NULL;
+  }
+  WP* p=free_;
+  free_=free_->next;
+  if(head==NULL)
+  {
+    head=p;
+    tail=p;
+  }
+  else
+  {
+    tail->next=p;
+    tail=p;
+  }
+  return tail;
+}
 
+void freeWp(WP *wp)
+{
+  if(head==NULL)
+  {
+    printf("No watchpoint.\n");
+    return;
+  }
+  if(wp==head)
+  {
+    head=head->next;
+    wp->next=free_;
+    free_=wp;
+    return;
+  }
+  WP *tmp=head;
+  while(tmp->next!=wp)  tmp=tmp->next;
+  tmp->next=wp->next;
+  wp->next=free_;
+  free_=wp;
+}
+
+void wpTrav()
+{
+  if(head==NULL)
+  {
+    printf("No any watchpoint.\n");
+    return;
+  }
+  WP *tmp=head;
+  while(tmp!=tail)
+  {
+    printf("%d %s %u (%#x)\n",tmp->NO,tmp->str,tmp->value,tmp->value);
+    tmp=tmp->next;
+  }
+  printf("%d %s %u (%#x)\n",tail->NO,tail->tmp,tail->value,tail->value);
+  return;
+}
+
+void delWp(int n)
+{
+  WP *tmp=head;
+  while(tmp!=tail)
+  {
+    if(tmp->NO==n)
+    {
+      freeWp(tmp);
+      break;
+    }
+    tmp=tmp->next;
+  }
+  if(tail->NO==n)
+  {
+    freeWp(tail);
+    break;
+  }
+  return;
+}
