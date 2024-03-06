@@ -302,8 +302,8 @@ uint32_t expr(char *e, bool *success) {
     type=tokens[i].type;
     if(type==TK_ADD||type==TK_SUB)
     {
-        int f=1,flag;
-        for(int j=i;j<nr_token&&(type==TK_ADD||type==TK_SUB);j++)
+        int f=1,flag=i;
+        for(int j=i+1;j<nr_token&&(type==TK_ADD||type==TK_SUB);j++)
         {
             flag=j;
             type=tokens[j].type;
