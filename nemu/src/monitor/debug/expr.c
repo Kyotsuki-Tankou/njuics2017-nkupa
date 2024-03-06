@@ -231,9 +231,12 @@ uint32_t reg2str(char *str,bool *success)
 }
 uint32_t eval(int p,int q,bool *success)
 {
+    printf("1\n");
     if(p>q)  return exitFailed(success,p,q);
+    
     else if(p==q)
     {
+        printf("2\n");
         int type=tokens[p].type;
         if(type==TK_NUM||type==TK_HEX){
             return strtoul(tokens[p].str,NULL,0);
