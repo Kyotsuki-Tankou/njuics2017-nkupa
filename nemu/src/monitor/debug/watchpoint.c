@@ -113,8 +113,9 @@ bool changedWp()
   // printf("%u\n",wp->value);
   // printf("%s\n",wp->str);
   // printf("%u\n",expr(wp->str,&flags));
-  while(wp!=NULL&&wp!=tail)
+  do
   {
+    if(wp==NULL)  break;
       printf("%u\n",wp->value);
       printf("%s\n",wp->str);
       printf("%u\n",expr(wp->str,&flags));
@@ -130,6 +131,6 @@ bool changedWp()
       wp->value=new_val;
     }
     wp=wp->next;
-  }
+  }while(wp!=NULL&&wp!=tail);
   return changed;
 }
