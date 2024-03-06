@@ -10,6 +10,7 @@
 
 void cpu_exec(uint64_t);
 uint32_t expr(char *e,bool *success);
+uint32_t instr_fetch(vaddr_t *pc,int len);
 void init_wp_pool();
 WP* newWp();
 void delWp(int n);
@@ -122,35 +123,62 @@ static int cmd_x(char *args){
 		printf("Wrong input, try again\n");
 		return 1;
 	}
-	long long n=readNum(arg);
+	int n;
+	sscanf(arg,"%d",&n);
+
 	char *EXPR = strtok(NULL," ");
 	if(EXPR==NULL){
 		printf("Wrong input, try again\n");
 		return 1;
 	}
-	if(strtok(NULL," ")!=NULL){
-		printf("Wrong input, try again\n");
-		return 1;
+	char *expr=strtok(NULL," ");
+	while(expr!=NULL)
+	{
+		strcat(EXPR,expr);
+		expr=strtok(NULL," ");
 	}
+	if(EXPR==NULL)  return 1;
 	char *str;
-//	bool flag=true;
-	vaddr_t addr = strtol(EXPR,&str,16);
+	bool flag=true;
+	// vaddr_t addr = strtol(EXPR,&str,16);	
+	uint32_t val=(EXPR,flag);
+	if(!flag)  return 0;
 	for(int i=0;i<n;i++)
 	{
-		uint32_t data = vaddr_read(addr+i*4,4);
-		printf("%08x:", addr+i*4);
-		for(int j=0;j<4;j++)
-		{
-			printf("0x%02x ",data & 0xff);
-			data=data>>8;
-		}
-		printf("\n");
+		// uint32_t data = vaddr_read(addr+i*4,4);
+		// printf("%08x:", addr+i*4);
+		// for(int j=0;j<4;j++)
+		// {
+		// 	printf("0x%02x ",data & 0xff);
+		// 	data=data>>8;
+		// }
+		// printf("\n");
+		printf("0x%08x:",val);
+		printf("0x%08x\n",instr_fetch(&val,4));
 	}
 	return 0;
 }
 /*end of pa1.1*/
 /*pa1.2*/
+/*
+static int cmd_x(char *args){
+	char *arg = strtok(NULL, " ");
+	if(arg == NULL) return 0;
+	int n = 0, i;
+	sscanf(arg, "%d", &n);
+	arg = full_expr();
+	if(arg == NULL) return 0;
 
+	bool success = true;
+	uint32_t value = expr(arg, &success);
+	if(!success) return 0;
+	for(i = 0; i < n; ++ i){
+		printf("0x%08x: ", value);
+		printf("0x%08x\n", instr_fetch(&value, 4));
+	}
+	return 0;
+}
+*/
 static int cmd_p(char *args){
 	if(args == NULL)  return 0;
 	bool flag = 1;
