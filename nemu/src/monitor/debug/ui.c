@@ -121,18 +121,21 @@ static int cmd_x(char *args){
 	char *expr1 = strtok(NULL," ");
 	if(expr1==NULL){printf("Wrong input\n");return 0;}
 	char *expr2=strtok(NULL," ");
-	printf("7\n");
 	while(expr2!=NULL)
 	{
 		printf("8\n");
 		strcat(expr1,expr2);
 		expr2=strtok(NULL," ");
 	}
+	printf("9\n");
 	if(expr1==NULL){printf("Wrong input\n");return 0;}
+	printf("10\n");
 	bool flag=true;
 	// vaddr_t addr = strtol(EXPR,&str,16);	
+	printf("11\n");
 	uint32_t val=expr(expr1,&flag);
 	if(!flag)  return 0;
+	printf("12\n");
 	for(int i=0;i<n;i++)
 	{
 		// uint32_t data = vaddr_read(addr+i*4,4);
