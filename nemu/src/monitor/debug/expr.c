@@ -231,9 +231,11 @@ uint32_t reg2str(char *str,bool *success)
 }
 uint32_t eval(int p,int q,bool *success)
 {
-    printf("1\n");
-    if(p>q)  return exitFailed(success,p,q);
-    
+    if(p>q)
+    {
+        printf("2 %d %d\n",p,q);
+        return exitFailed(success,p,q);   
+    }  
     else if(p==q)
     {
         printf("2\n");
