@@ -316,7 +316,8 @@ uint32_t expr(char *e, bool *success) {
             else  tokens[i].type=TK_SUB;
             for(int j=i+1;j+flag-i-1<nr_token;j++)
             {
-                tokens[j]=tokens[j+(flag-i)];
+                tokens[j]=tokens[j+(flag-i-1)];
+                printf("%d ",tokens[j].type);
             }
             nr_token-=flag-i-1;
         }
@@ -330,10 +331,10 @@ uint32_t expr(char *e, bool *success) {
         else if(tokens[i-1].type!=TK_DEREF) tokens[i].type=TK_DEREF;
     }
   }
-  for(int i=0;i<nr_token;i++)
-  {
-    printf("%d ",tokens[i].type);
-  }
+  // for(int i=0;i<nr_token;i++)
+  // {
+  //   printf("%d ",tokens[i].type);
+  // }
   printf("\n");
   uint32_t val;
   val=eval(0,nr_token-1,success);
