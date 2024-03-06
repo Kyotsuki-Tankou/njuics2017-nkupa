@@ -313,7 +313,7 @@ uint32_t expr(char *e, bool *success) {
         {
             if(f==1)  tokens[i].type=TK_ADD;
             else  tokens[i].type=TK_SUB;
-            for(int j=i+1;j<=flag;j++)
+            for(int j=i+1;j<flag;j++)
             {
                 tokens[j]=tokens[j+(flag-i)];
             }
