@@ -254,7 +254,7 @@ uint32_t eval(int p,int q,bool *success)
         }
     }
     int flag=check_parentheses(p,q);
-    printf("flag:%d\n",flag);
+    printf("flag:%d  p:%d,q:%d\n",flag,p,q);
     if(flag==-1)  return exitFailed(success,p,q);
     if(flag==1)  return eval(p+1,q-1,success);
     uint32_t val1=0,val2=0,val=0;
