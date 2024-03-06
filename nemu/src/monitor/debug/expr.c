@@ -216,6 +216,7 @@ int check_parentheses(int p,int q)
 uint32_t exitFailed(bool *success,int p,int q)
 {
     printf("Wrong expression from %d to %d\n",p,q);
+    dbg();
     *success=false;
     return 0;
 }
