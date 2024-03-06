@@ -10,6 +10,11 @@
 
 void cpu_exec(uint64_t);
 uint32_t expr(char *e,bool *success);
+void init_wp_pool();
+WP* newWp();
+void delWp(WP *wp);
+void freeWp(WP *wp);
+
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
   static char *line_read = NULL;
@@ -189,6 +194,11 @@ static int cmd_w(char *args){
 	return 0;
 }
 static int cmd_d(char *args){
+	char *arg=strtok(NULL," ");
+	if(arg==NULL)  return 0;
+	int n;
+	scanf("%d",&n);
+	delWp(n);
 	return 0;
 }
 /*end of pa1.3*/

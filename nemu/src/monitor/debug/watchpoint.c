@@ -89,14 +89,17 @@ void delWp(int n)
     if(tmp->NO==n)
     {
       freeWp(tmp);
-      break;
+      printf("Delete success.\n");
+      return;
     }
     tmp=tmp->next;
   }
   if(tail->NO==n)
   {
     freeWp(tail);
-    break;
+    printf("Delete success.\n");
+    return;
   }
+  printf("Not found\n");
   return;
 }
