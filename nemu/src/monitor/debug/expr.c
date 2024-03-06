@@ -311,7 +311,7 @@ uint32_t expr(char *e, bool *success) {
         }
         if(flag-i>1)
         {
-            if(flag==1)  tokens[i].type=TK_ADD;
+            if(f==1)  tokens[i].type=TK_ADD;
             else  tokens[i].type=TK_SUB;
             for(int j=i+1;j<=flag;j++)
             {
