@@ -131,17 +131,16 @@ static int cmd_x(char *args){
 		printf("Wrong input, try again\n");
 		return 1;
 	}
-	char *expr=strtok(NULL," ");
-	while(expr!=NULL)
+	char *expr1=strtok(NULL," ");
+	while(expr1!=NULL)
 	{
-		strcat(EXPR,expr);
-		expr=strtok(NULL," ");
+		strcat(EXPR,expr1);
+		expr1=strtok(NULL," ");
 	}
 	if(EXPR==NULL)  return 1;
-	char *str;
 	bool flag=true;
 	// vaddr_t addr = strtol(EXPR,&str,16);	
-	uint32_t val=(EXPR,flag);
+	uint32_t val=expr(EXPR,&flag);
 	if(!flag)  return 0;
 	for(int i=0;i<n;i++)
 	{
