@@ -123,5 +123,5 @@ bool changedWp()
     }
     wp=wp->next;
   }
-  return changedWp;
+  return changed;
 }
