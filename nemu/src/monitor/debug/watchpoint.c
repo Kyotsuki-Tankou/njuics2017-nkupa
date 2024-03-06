@@ -103,3 +103,24 @@ void delWp(int n)
   printf("Not found\n");
   return;
 }
+
+bool changedWp()
+{
+  bool changed=0;
+  WP *wp=head;
+  uint32_t now_val,new_val;
+  while(wp!=NULL)
+  {
+    bool success=1;
+    new_val=expr(wp->str,&success);
+    Assert(success,"Watchpoint expression needd to be success.\n");
+    now_val=wp->value;
+    if(now_val!=new_val)
+    {
+      printf("Watchpoint %d: %s\n Old value = [%u] changed to the new value = [%u].\n",wp->NO,wp->str,now_val,new_val);
+      changed=true;
+      wp->value=new_val;
+    }
+    wp=wp->next;
+  }
+}
