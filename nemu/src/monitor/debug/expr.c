@@ -331,8 +331,9 @@ uint32_t expr(char *e, bool *success) {
   }
   for(int i=0;i<nr_token;i++)
   {
-    printf("%d",tokens[i].type);
+    printf("%d ",tokens[i].type);
   }
+  printf("\n");
   uint32_t val;
   val=eval(0,nr_token-1,success);
   return val;
