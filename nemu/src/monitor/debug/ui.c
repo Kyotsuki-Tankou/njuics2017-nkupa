@@ -12,7 +12,7 @@ void cpu_exec(uint64_t);
 uint32_t expr(char *e,bool *success);
 void init_wp_pool();
 WP* newWp();
-void delWp(WP *wp);
+void delWp(int n);
 void freeWp(WP *wp);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
@@ -186,9 +186,10 @@ static int cmd_w(char *args){
 	memset(wp->str,0,sizeof(wp->str));
 	strcpy(wp->str,arg);
 	uint32_t res=expr(arg,&success);
+	wp->value=res;
 	if(!success)
 	{
-		pritnf("Wrong expression.\n");
+		printf("Wrong expression.\n");
 		freeWp(wp);
 	}
 	return 0;
