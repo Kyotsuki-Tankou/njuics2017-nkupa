@@ -278,7 +278,7 @@ uint32_t eval(int p,int q,bool *success)
     }
     // printf("pos:%d\n",pos);
     if(pos==-1)  return exitFailed(success,p,q);
-    if(token[pos].type==TK_NEG)
+    if(tokens[pos].type==TK_NEG)
     {
         val=eval(pos+1,q,success);
     }  
