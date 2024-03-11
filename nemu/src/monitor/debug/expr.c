@@ -168,12 +168,13 @@ int prio(int op)//priority of token
     case TK_SUB:
         p=4;
         break;
+
     case TK_MUT:
     case TK_DIV:
-        p=5;
+        p=6;
         break;
     case TK_NEG:
-        p=6;
+        p=5;
         break;
     case TK_DEREF:
         p=7;
