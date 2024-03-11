@@ -73,6 +73,7 @@ int nr_token;
 
 void dbg()
 {
+    printf("The token list is:\n");
     for(int i=0;i<nr_token;i++)  printf("%d ",tokens[i].type);
     printf("\n");
 }
@@ -240,7 +241,7 @@ uint32_t reg2str(char *str,bool *success)
 }
 uint32_t eval(int p,int q,bool *success)
 {
-    printf("p:%d,q:%d\n",p,q);
+    // printf("p:%d,q:%d\n",p,q);
     if(p>q)
     {
         return exitFailed(success,p,q);   
@@ -289,7 +290,7 @@ uint32_t eval(int p,int q,bool *success)
     if(tokens[pos].type!=TK_DEREF&&tokens[pos].type!=TK_NEG)  val1=eval(p,pos-1,success);
     if(*success==0)  return 0;
     val2=eval(pos+1,q,success);
-    printf("pos: %d\n",pos);
+    // printf("pos: %d\n",pos);
     if(*success==0)  return 0;
     switch(tokens[pos].type)
     {
