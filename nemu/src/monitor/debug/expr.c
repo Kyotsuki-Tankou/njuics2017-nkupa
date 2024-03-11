@@ -278,10 +278,11 @@ uint32_t eval(int p,int q,bool *success)
     }
     // printf("pos:%d\n",pos);
     if(pos==-1)  return exitFailed(success,p,q);
-    if(tokens[pos].type==TK_NEG)
-    {
-        val=eval(pos+1,q,success);
-    }  
+    // if(tokens[pos].type==TK_NEG)
+    // {
+    //     val=eval(pos+1,q,success);
+    //     val=val*-1;
+    // }  
     if(tokens[pos].type!=TK_DEREF&&tokens[pos].type!=TK_NEG)  val1=eval(p,pos-1,success);
     if(*success==0)  return 0;
     val2=eval(pos+1,q,success);
@@ -301,6 +302,7 @@ uint32_t eval(int p,int q,bool *success)
     case TK_OR:  val=val1||val2;break;
     case TK_EQ:  val=val1==val2;break;
     case TK_DEREF:  val=vaddr_read(val2,4);break;
+    case TK_NEG: val=-1*val2;break;
     default:  printf("Unknown type.");return exitFailed(success,p,q);break;
     }
 	return val;
