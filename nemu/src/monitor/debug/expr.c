@@ -286,6 +286,7 @@ uint32_t eval(int p,int q,bool *success)
     if(tokens[pos].type!=TK_DEREF&&tokens[pos].type!=TK_NEG)  val1=eval(p,pos-1,success);
     if(*success==0)  return 0;
     val2=eval(pos+1,q,success);
+    printf("pos: %d\n",pos);
     if(*success==0)  return 0;
     switch(tokens[pos].type)
     {
@@ -305,7 +306,6 @@ uint32_t eval(int p,int q,bool *success)
     case TK_NEG: val=(-1)*val2;break;
     default:  printf("Unknown type.");return exitFailed(success,p,q);break;
     }
-    printf("from %d to %d, the val is %u",p,q,val);
 	return val;
 }
 uint32_t expr(char *e, bool *success) {
