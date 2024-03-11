@@ -12,7 +12,7 @@
 
 enum {
   TK_NOTYPE = 256, TK_EQ,TK_NUM,TK_ADD,TK_SUB,TK_HEX,TK_AND,
-  TK_MUT,TK_DIV,TK_LBR,TK_RBR,TK_REG,TK_OR,TK_DEREF
+  TK_MUT,TK_DIV,TK_LBR,TK_RBR,TK_REG,TK_OR,TK_DEREF,TK_NEG
 
   /* TODO: Add more token types */
 
@@ -172,11 +172,14 @@ int prio(int op)//priority of token
     case TK_DIV:
         p=5;
         break;
-    case TK_DEREF:
+    case TK_NEG:
         p=6;
         break;
-    default:
+    case TK_DEREF:
         p=7;
+        break;
+    default:
+        p=8;
         break;
     }
     return p;
@@ -275,7 +278,8 @@ uint32_t eval(int p,int q,bool *success)
     }
     // printf("pos:%d\n",pos);
     if(pos==-1)  return exitFailed(success,p,q);
-    if(tokens[pos].type!=TK_DEREF)  val1=eval(p,pos-1,success);
+    if(pos==TK_NEG)  val=eval(pos+1,q,success);
+    if(tokens[pos].type!=TK_DEREF&&tokens[pos].type!=TK_NEG)  val1=eval(p,pos-1,success);
     if(*success==0)  return 0;
     val2=eval(pos+1,q,success);
     if(*success==0)  return 0;
@@ -329,6 +333,17 @@ uint32_t expr(char *e, bool *success) {
                 // printf("%d ",tokens[j].type);
             }
             nr_token-=flag-i-1;
+        }
+    }
+  }
+  //"-"processing
+  for(int i=0;i<nr_token;i++)
+  {
+    if(tokens[i].type==TK_SUB)
+    {
+        if(i==0||tokens[i-1].type==TK_LBR||is_op(tokens[i-1].type))
+        {
+            tokens[i].type=TK_NEG;
         }
     }
   }
