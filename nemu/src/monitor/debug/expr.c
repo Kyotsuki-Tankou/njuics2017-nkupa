@@ -278,7 +278,10 @@ uint32_t eval(int p,int q,bool *success)
     }
     // printf("pos:%d\n",pos);
     if(pos==-1)  return exitFailed(success,p,q);
-    if(pos==TK_NEG)  val=eval(pos+1,q,success);
+    if(token[pos].type==TK_NEG)
+    {
+        val=eval(pos+1,q,success);
+    }  
     if(tokens[pos].type!=TK_DEREF&&tokens[pos].type!=TK_NEG)  val1=eval(p,pos-1,success);
     if(*success==0)  return 0;
     val2=eval(pos+1,q,success);
