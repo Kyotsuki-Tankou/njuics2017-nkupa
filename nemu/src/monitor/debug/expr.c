@@ -144,6 +144,7 @@ int is_op(int op)
     case TK_MUT:
     case TK_DIV:
     case TK_DEREF:
+    case TK_NEG:
         flag=1;
         break;
     default:
@@ -265,7 +266,6 @@ uint32_t eval(int p,int q,bool *success)
     int flag=check_parentheses(p,q);
     if(flag==-1)  return exitFailed(success,p,q);
     if(flag==1)  return eval(p+1,q-1,success);
-    printf("1\n");
     uint32_t val1=0,val2=0,val=0;
     int pos=-1;
     for(int i=p;i<=q;i++)
@@ -286,11 +286,8 @@ uint32_t eval(int p,int q,bool *success)
     //     val=eval(pos+1,q,success);
     //     val=val*-1;
     // }  
-    printf("2\n");
     if(tokens[pos].type!=TK_DEREF&&tokens[pos].type!=TK_NEG)  val1=eval(p,pos-1,success);
-    printf("3\n");
     if(*success==0)  return 0;
-    printf("4\n");
     val2=eval(pos+1,q,success);
     printf("pos: %d\n",pos);
     if(*success==0)  return 0;
