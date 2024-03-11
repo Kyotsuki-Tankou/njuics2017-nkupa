@@ -302,9 +302,10 @@ uint32_t eval(int p,int q,bool *success)
     case TK_OR:  val=val1||val2;break;
     case TK_EQ:  val=val1==val2;break;
     case TK_DEREF:  val=vaddr_read(val2,4);break;
-    case TK_NEG: val=-1*val2;break;
+    case TK_NEG: val=(-1)*val2;break;
     default:  printf("Unknown type.");return exitFailed(success,p,q);break;
     }
+    printf("from %d to %d, the val is %u",p,q,val);
 	return val;
 }
 uint32_t expr(char *e, bool *success) {
