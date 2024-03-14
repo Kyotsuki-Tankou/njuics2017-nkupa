@@ -176,13 +176,13 @@ int prio(int op)//priority of token
         p=6;
         break;
     case TK_NEG:
-        p=5;
+        p=8;
         break;
     case TK_DEREF:
         p=7;
         break;
     default:
-        p=8;
+        p=10;
         break;
     }
     return p;
