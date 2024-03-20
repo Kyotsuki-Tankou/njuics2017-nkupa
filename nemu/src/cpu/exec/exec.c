@@ -230,8 +230,8 @@ void exec_wrapper(bool print_flag) {
   decoding.p += sprintf(decoding.p, "%8x:   ", cpu.eip);
 #endif
 
-  decoding.seq_eip = cpu.eip;
-  exec_real(&decoding.seq_eip);
+  decoding.seq_eip = cpu.eip;//get eip
+  exec_real(&decoding.seq_eip);//get-decode-exec
 
 #ifdef DEBUG
   int instr_len = decoding.seq_eip - cpu.eip;
@@ -247,7 +247,7 @@ void exec_wrapper(bool print_flag) {
   uint32_t eip = cpu.eip;
 #endif
 
-  update_eip();
+  update_eip();//update eip
 
 #ifdef DIFF_TEST
   void difftest_step(uint32_t);
