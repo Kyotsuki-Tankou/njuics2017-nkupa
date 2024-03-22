@@ -10,7 +10,7 @@ make_EHelper(push) {
   print_asm_template1(push);
 }
 
-make_EHelper(pop) {
+make_EHelper(pop) {//疑似不能用id_src->val
   rtl_pop(&t2);
   operand_write(id_dest,&t2);
   print_asm_template1(pop);
