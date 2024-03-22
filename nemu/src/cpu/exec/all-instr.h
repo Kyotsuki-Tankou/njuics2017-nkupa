@@ -4,9 +4,9 @@
 make_EHelper(add);
 make_EHelper(sub);
 make_EHelper(cmp);
-// make_EHelper(inc);//todo
-// make_EHelper(dec);//todo
-// make_EHelper(neg);//todo
+make_EHelper(inc);
+make_EHelper(dec);
+make_EHelper(neg);
 make_EHelper(adc);
 make_EHelper(sbb);
 make_EHelper(mul);
@@ -27,7 +27,7 @@ make_EHelper(call_rm);
 make_EHelper(mov);
 make_EHelper(push);
 make_EHelper(pop);
-// make_EHelper(pusha);//todo
+make_EHelper(pusha);
 // make_EHelper(popa);//todo
 // make_EHelper(leave);//todo
 // make_EHelper(cltd);//todo
@@ -37,15 +37,15 @@ make_EHelper(movzx);
 make_EHelper(lea);
 
 //logic.c
-make_EHelper(test);//todo
+make_EHelper(test);
 make_EHelper(and);
 make_EHelper(xor);
-// make_EHelper(or);//todo
+make_EHelper(or);
 // make_EHelper(sar);//todo
 // make_EHelper(shl);//todo
 // make_EHelper(shr);//todo
 make_EHelper(setcc);
-// make_EHelper(not);//todo
+make_EHelper(not);
 
 //prefix.c
 make_EHelper(operand_size);
