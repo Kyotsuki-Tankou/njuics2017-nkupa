@@ -54,8 +54,11 @@ make_EHelper(shr) {
 }
 
 make_EHelper(setcc) {
+  printf("111\n");
   uint8_t subcode = decoding.opcode & 0xf;
+  printf("222\n");
   rtl_setcc(&t2, subcode);
+  printf("333\n");
   operand_write(id_dest, &t2);
 
   print_asm("set%s %s", get_cc_name(subcode), id_dest->str);
