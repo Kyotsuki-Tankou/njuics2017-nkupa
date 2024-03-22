@@ -38,7 +38,7 @@ make_EHelper(lea);
 
 //logic.c
 make_EHelper(test);//todo
-make_EHelper(and);//todo
+make_EHelper(and);
 make_EHelper(xor);
 make_EHelper(or);//todo
 make_EHelper(sar);//todo
