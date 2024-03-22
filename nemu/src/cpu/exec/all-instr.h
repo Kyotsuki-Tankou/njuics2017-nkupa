@@ -29,7 +29,7 @@ make_EHelper(push);
 make_EHelper(pop);
 make_EHelper(pusha);
 // make_EHelper(popa);//todo
-// make_EHelper(leave);//todo
+make_EHelper(leave);
 // make_EHelper(cltd);//todo
 // make_EHelper(cwtl);//todo
 make_EHelper(movsx);
