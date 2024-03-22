@@ -78,9 +78,10 @@ make_EHelper(dec) {
 }
 
 make_EHelper(neg) {
-  rtl_addi(&t2,&tzero,&id_dest->val);
+  rtl_sub(&t2,&tzero,&id_dest->val);
   rtl_update_ZFSF(&t2,id_dest->width);
-  rtl_neq0(&t0,id_test->val);
+  rtl_neq0(&t0,&id_dest->val);
+  rtl_set_CF(&t0);
   rtl_eqi(&t0,&t2,0x80000000);
   rtl_set_OF(&t0);
   operand_write(id_dest,&t2);
