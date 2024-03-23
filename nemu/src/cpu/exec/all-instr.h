@@ -30,7 +30,7 @@ make_EHelper(pop);
 make_EHelper(pusha);
 // make_EHelper(popa);//todo
 make_EHelper(leave);
-// make_EHelper(cltd);//todo
+make_EHelper(cltd);
 // make_EHelper(cwtl);//todo
 make_EHelper(movsx);
 make_EHelper(movzx);
@@ -41,9 +41,9 @@ make_EHelper(test);
 make_EHelper(and);
 make_EHelper(xor);
 make_EHelper(or);
-// make_EHelper(sar);//todo
-// make_EHelper(shl);//todo
-// make_EHelper(shr);//todo
+make_EHelper(sar);
+make_EHelper(shl);
+make_EHelper(shr);
 make_EHelper(setcc);
 make_EHelper(not);
 
