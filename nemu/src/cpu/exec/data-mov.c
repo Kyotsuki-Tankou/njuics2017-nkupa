@@ -44,7 +44,7 @@ make_EHelper(leave) {
 make_EHelper(cltd) {
   if (decoding.is_operand_size_16) {
     rtl_msb(&t0,&cpu.eax,2);
-    if(t0==1)  cpu.edx=cpu.dex|0xffff;
+    if(t0==1)  cpu.edx=cpu.edx|0xffff;
     else  cpu.edx=0;
   }
   else {
