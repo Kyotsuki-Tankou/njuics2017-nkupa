@@ -73,7 +73,6 @@ make_EHelper(dec) {
   rtl_update_ZFSF(&t2,id_dest->width);
   rtl_eqi(&t0,&t2,0x7fffffff);
   rtl_set_OF(&t0);
-
   print_asm_template1(dec);
 }
 
