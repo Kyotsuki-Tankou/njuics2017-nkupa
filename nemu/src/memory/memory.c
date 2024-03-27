@@ -12,7 +12,7 @@ uint8_t pmem[PMEM_SIZE];
 /* Memory accessing interfaces */
 
 uint32_t paddr_read(paddr_t addr, int len) {
-  return is_mmio(addr)==-1?pmem_rw(addr, uint32_t) & (~0u >> ((4 - len) << 3)),mmio_read(addr,len,r);
+  return is_mmio(addr)==-1?pmem_rw(addr, uint32_t) & (~0u >> ((4 - len) << 3)):mmio_read(addr,len,is_mmio(addr));
 }
 
 void paddr_write(paddr_t addr, int len, uint32_t data) {
