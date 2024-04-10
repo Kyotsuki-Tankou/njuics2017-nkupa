@@ -32,7 +32,9 @@ typedef struct {
  };
   };
   vaddr_t eip;
-    struct efls{
+  union{
+    uint32_t val;
+    struct{
       unsigned int CF:1;
       unsigned int one:1;
       unsigned int :4;
@@ -43,7 +45,8 @@ typedef struct {
       unsigned int :1;
       unsigned int OF:1;
       unsigned int :1;
-    }eflags;
+    };
+  }eflags;
     struct{
       uint16_t limit;
       uint32_t base;
