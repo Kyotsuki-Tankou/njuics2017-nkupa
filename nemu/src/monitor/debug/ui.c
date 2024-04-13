@@ -2,20 +2,12 @@
 #include "monitor/expr.h"
 #include "monitor/watchpoint.h"
 #include "nemu.h"
-#include "cpu/exec.h"
 
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
 void cpu_exec(uint64_t);
-uint32_t expr(char *e,bool *success);
-uint32_t instr_fetch(vaddr_t *pc,int len);
-void init_wp_pool();
-WP* newWp();
-void delWp(int n);
-void freeWp(WP *wp);
-void wpTrav();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -44,185 +36,6 @@ static int cmd_q(char *args) {
   return -1;
 }
 
-/*pa1.1*/
-long long readNum(char *arg)
-{
-	long long x=0,f=1;
-	char *tmpArg=arg;
-	if(*tmpArg=='-')
-	{
-		f=-1;
-		tmpArg++;
-	}
-	while(*tmpArg<='9'&&*tmpArg>='0')
-	{
-		x=x*10+(*tmpArg)-'0';
-		tmpArg++;
-	}
-	if(*tmpArg!='\0'||x>2147483647||x<-2147483648)
-	{
-		printf("Input error");
-		return 2147483648;
-	}
-	//printf("x=%lld,f=%lld,x*f=%lld",x,f,x*f);
-	return x*f;
-}
-static int cmd_si(char *args){
-	char *arg=strtok(NULL," ");
-	if(arg==NULL){
-		cpu_exec(1);
-		return 0;
-	}
-	else
-	{
-		long long n=0;
-		uint64_t num=0;
-		n=readNum(arg);
-		if(n==2147483648||n<=0)
-		{
-			n=1;
-			printf(" Set to the default settings.\n");
-		}
-		//printf("n=%lld",n);
-		num=n;
-		cpu_exec(num);
-		return 0;
-	}
-
-	return 0;
-}
-static int cmd_info(char *args){
-	char *arg = strtok(NULL," ");
-	if(arg!=NULL){
-	if(strcmp(arg,"w")==0){
-		wpTrav();
-		return 0;
-	}}
-	if(arg!=NULL&&strcmp(arg,"r")!=0)
-	{
-		printf("Wrong input, set to the default settings.\n");
-	}
-		printf("eax: %x\n",cpu.eax);
-		printf("ecx: %x\n",cpu.ecx);
-		printf("edx: %x\n",cpu.edx);
-		printf("ebx: %x\n",cpu.ebx);
-    printf("esp: %x\n",cpu.esp);
-		printf("ebp: %x\n",cpu.ebp);
-		printf("esi: %x\n",cpu.esi);
-		printf("edi: %x\n",cpu.edi);
-		return 0;
-}
-static int cmd_x(char *args){
-	/*This is the simplified pa1.1 version*/
-	char *arg = strtok(args," ");
-	if(arg==NULL){printf("Wrong input\n");return 0;}
-	int n;
-	sscanf(arg,"%d",&n);
-	char *expr1 = strtok(NULL," ");
-	if(expr1==NULL){printf("Wrong input\n");return 0;}
-	char *expr2=strtok(NULL," ");
-	while(expr2!=NULL)
-	{
-		strcat(expr1,expr2);
-		expr2=strtok(NULL," ");
-	}
-	if(expr1==NULL){printf("Wrong input\n");return 0;}
-	bool flag=true;
-	// vaddr_t addr = strtol(EXPR,&str,16);	
-	uint32_t val=expr(expr1,&flag);
-	if(!flag)  return 0;
-	for(int i=0;i<n;i++)
-	{
-		// uint32_t data = vaddr_read(addr+i*4,4);
-		// printf("%08x:", addr+i*4);
-		// for(int j=0;j<4;j++)
-		// {
-		// 	printf("0x%02x ",data & 0xff);
-		// 	data=data>>8;
-		// }
-		// printf("\n");
-		printf("0x%08x:",val);
-		uint32_t res=instr_fetch(&val,4);
-		printf("0x%08x\n",res);
-	}
-	printf("114");
-	return 0;
-}
-/*end of pa1.1*/
-/*pa1.2*/
-/*
-static int cmd_x(char *args){
-	char *arg = strtok(NULL, " ");
-	if(arg == NULL) return 0;
-	int n = 0, i;
-	sscanf(arg, "%d", &n);
-	arg = full_expr();
-	if(arg == NULL) return 0;
-
-	bool success = true;
-	uint32_t value = expr(arg, &success);
-	if(!success) return 0;
-	for(i = 0; i < n; ++ i){
-		printf("0x%08x: ", value);
-		printf("0x%08x\n", instr_fetch(&value, 4));
-	}
-	return 0;
-}
-*/
-static int cmd_p(char *args){
-	if(args == NULL)  return 0;
-	bool flag = 1;
-	uint32_t value = expr(args, &flag);
-	if(flag)
-	{
-		printf("%u(0x%08x)\n",value,value);
-	}
-	return 0;
-}
-/*end of pa1.2*/
-/*pa1.3*/
-static int cmd_w(char *args){
-	bool success=1;
-	if(args==NULL)
-	{
-		printf("Please input the expression.\n");
-		return 0;
-	}
-	char *arg=strtok(NULL," ");
-	if(arg==NULL)
-	{
-		printf("Wrong input, try again.\n");
-		return 0;
-	}
-	char *argg=strtok(NULL," ");
-	while(argg!=NULL)
-	{
-		strcat(arg,argg);
-		argg=strtok(NULL," ");
-	}
-	if(arg==NULL)  return 0;
-	WP* wp=newWp();
-	memset(wp->str,0,sizeof(wp->str));
-	strcpy(wp->str,arg);
-	uint32_t res=expr(arg,&success);
-	wp->value=res;
-	if(!success)
-	{
-		printf("Wrong expression.\n");
-		freeWp(wp);
-	}
-	return 0;
-}
-static int cmd_d(char *args){
-	char *arg=strtok(NULL," ");
-	if(arg==NULL)  return 0;
-	int n;
-	sscanf(arg,"%d",&n);
-	delWp(n);
-	return 0;
-}
-/*end of pa1.3*/
-
 static int cmd_help(char *args);
 
 static struct {
@@ -233,18 +46,9 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-/*pa1.1*/
-  {"si","Usage: si [N]\n Execute program with N(default:1) step(s)", cmd_si},
-  {"info","Usage: info [r][w]\n [r]:Print values of all registers,"\
-	 " [w]:print all watchpoints (Default:[r])", cmd_info},
-  {"p","Usage: p [EXPR] \n Output the value of the given expression.",cmd_p},
-  {"x","Usage: x [N]  [EXPR] \n Output the value of the given expression."\
-	 "With quadual consequtive bytes starting from the EXPR in hex form.",cmd_x},
-  {"w","Usage: w [EXPR] \n set a watchpoing for [EXPR]"\
-	 "Cease the program when the value of the expression changes",cmd_w},
-  {"d","Usage: d [N] \n Delete watchpoint which id is N",cmd_d}
+
   /* TODO: Add more commands */
-/*end of pa1.1*/
+
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
