@@ -59,7 +59,7 @@ make_EHelper(nemu_trap);
 make_EHelper(lidt);
 // make_EHelper(mov_r2cr);//todo
 // make_EHelper(mov_cr2r);//todo
-// make_EHelper(int);//todo
+make_EHelper(int);
 // make_EHelper(iret);//todo
 make_EHelper(in);
 make_EHelper(out);
