@@ -17,6 +17,7 @@ uintptr_t sys_write(int fd,void *buf,int len)
   {
     for(;len>0;len--)
     {
+        printf("%c",((char*)buf)[i]);
         _putc(((char*)buf)[i]);
         i++;
     }
