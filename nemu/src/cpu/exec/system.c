@@ -30,9 +30,8 @@ make_EHelper(mov_cr2r) {
 }
 
 make_EHelper(int) {
-  TODO();
-
-  print_asm("int %s", id_dest->str);
+  raise_intr(id_dest->val,decoding.seq_eip);
+  print_asm("int %s",id_dest->str);
 
 #ifdef DIFF_TEST
   diff_test_skip_nemu();
