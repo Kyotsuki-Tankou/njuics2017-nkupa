@@ -51,7 +51,7 @@ typedef struct {
       uint16_t limit;
       uint32_t base;
     }idtr;
-    uint32_t cs;
+    unsigned int cs;
 } CPU_state;
 
 extern CPU_state cpu;
