@@ -15,10 +15,10 @@ uintptr_t sys_write(int fd,void *buf,int len)
   uintptr_t i=0;
   if(fd==1||fd==2)
   {
-    for(;len>0;i++)
+    for(;len>0;len--)
     {
         _putc(((char*)buf)[i]);
-        len--;
+        i++;
     }
   }
   return i;
@@ -34,7 +34,7 @@ _RegSet* do_syscall(_RegSet *r) {
   switch (a[0]) {
     case SYS_none:return sys_none(r);break;
     case SYS_exit:return sys_exit(r);break;
-    case SYS_write:sys_write((int)a[1],(void*)a[2],(int)a[3]);break;
+    case SYS_write:sys_write(a[1],(void*)a[2],a[3]);break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
