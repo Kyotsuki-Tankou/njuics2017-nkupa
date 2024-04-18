@@ -60,16 +60,16 @@ make_EHelper(cltd) {
   print_asm(decoding.is_operand_size_16 ? "cwtl" : "cltd");
 }
 
-make_EHelper(cwtl) {
-  if (decoding.is_operand_size_16) {
-    TODO();
-  }
-  else {
-    TODO();
-  }
+// make_EHelper(cwtl) {
+//   if (decoding.is_operand_size_16) {
+//     TODO();
+//   }
+//   else {
+//     TODO();
+//   }
 
-  print_asm(decoding.is_operand_size_16 ? "cbtw" : "cwtl");
-}
+//   print_asm(decoding.is_operand_size_16 ? "cbtw" : "cwtl");
+// }
 
 make_EHelper(movsx) {
   id_dest->width = decoding.is_operand_size_16 ? 2 : 4;
