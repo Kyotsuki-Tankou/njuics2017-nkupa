@@ -12,10 +12,10 @@ static inline _RegSet* sys_exit(_RegSet *r){
 _RegSet* do_syscall(_RegSet *r) {
   uintptr_t a[4];
   a[0] = SYSCALL_ARG1(r);
-
+  printf("%d",a[0]);
   switch (a[0]) {
-    case SYS_none:return sys_none(r);
-    case SYS_exit:return sys_exit(r);
+    case SYS_none:return sys_none(r);break;
+    case SYS_exit:return sys_exit(r);break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
