@@ -20,7 +20,7 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   eip_low=eip_low&0x0000ffff;
   //object
   uint32_t offset=eip_high;
-  offset|=eip_low;
+  offset=eip_high|eip_low;
   //jmp
   decoding.jmp_eip=offset;
   decoding.is_jmp=1;
