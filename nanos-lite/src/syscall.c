@@ -1,6 +1,12 @@
 #include "common.h"
 #include "syscall.h"
 
+int fs_open(const char *pathname, int flags, int mode);
+ssize_t fs_read(int fd, void *buf, size_t len);
+ssize_t fs_write(int fd, const void *buf, size_t len);
+off_t fs_lseek(int fd, off_t offset, int whence);
+int fs_close(int fd);
+
 static inline _RegSet* sys_none(_RegSet *r){
   SYSCALL_ARG1(r) = 1;
   return NULL;
@@ -10,17 +16,11 @@ static inline _RegSet* sys_exit(_RegSet *r){
   return NULL;
 }
 
-_RegSet* sys_write(int fd,void *buf,int len)
-{
-  uintptr_t i=0;
-  if(fd==1||fd==2)
-  {
-    for(;len>0;len--)
-    {
-        _putc(((char*)buf)[i]);
-        i++;
-    }
-  }
+static inline _RegSet* sys_write(_RegSet *r){
+  int fd = (int)SYSCALL_ARG2(r);
+  char *buf = (char *)SYSCALL_ARG3(r);
+  int len = (int)SYSCALL_ARG4(r);
+  SYSCALL_ARG1(r) = fs_write(fd,buf,len);
   return NULL;
 }
 
@@ -34,7 +34,7 @@ _RegSet* do_syscall(_RegSet *r) {
   switch (a[0]) {
     case SYS_none:return sys_none(r);break;
     case SYS_exit:return sys_exit(r);break;
-    case SYS_write:return sys_write(a[1],(void*)a[2],a[3]);break;
+    case SYS_write:return sys_write(r);break;
     case SYS_brk:return 0;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }

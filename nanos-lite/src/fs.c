@@ -30,7 +30,7 @@ extern size_t events_read(void *buf, size_t len);
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
-  file_table[FD_FB].size=_scr_screen.height*_screen.width*4;
+  file_table[FD_FB].size=_screen.height*_screen.width*4;
 }
 
 int fs_open(const char *pathname,int flags,int mode)
@@ -45,7 +45,7 @@ int fs_open(const char *pathname,int flags,int mode)
 
 ssize_t fs_read(int fd,void *buf,size_t len)
 {
-    ssize_t fs_size=fs_filesz(fd);
+    ssize_t fs_size=file_table[fd].size;
     if(file_table[fd].open_offset+len>fs_size)  len=fs_size-file_table[fd].open_offset;
     switch(fd)
     {
@@ -68,7 +68,7 @@ ssize_t fs_read(int fd,void *buf,size_t len)
 
 ssize_t fs_write(int fd,const void *buf,size_t len)
 {
-    ssize_t fs_size=fs_filesz(fd);
+    ssize_t fs_size=file_table[fd].size;
     if(file_table[fd].open_offset+len>fs_size)  len=fs_size-file_table[fd].open_offset;
     switch(fd)
     {
@@ -100,21 +100,21 @@ off_t fs_lseek(int fd,off_t offset,int whence)
 		case SEEK_SET:
 			if (offset >= 0 && offset <= file_table[fd].size) {
 				file_table[fd].open_offset = offset;
-				result = file_table[fd].open_offset;
+				res = file_table[fd].open_offset;
 			}
 			break;
 		case SEEK_CUR:
 			if ((offset + file_table[fd].open_offset >= 0) && (offset + file_table[fd].open_offset <= file_table[fd].size)) {
 				file_table[fd].open_offset += offset;
-				result = file_table[fd].open_offset;
+				res = file_table[fd].open_offset;
 			}
 			break;
 		case SEEK_END:
 			file_table[fd].open_offset = file_table[fd].size + offset;
-			result = file_table[fd].open_offset;
+			res = file_table[fd].open_offset;
 			break;
 	}
-	return result;
+	return res;
 }
 
 int fs_close(int fd)
