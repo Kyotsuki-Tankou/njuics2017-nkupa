@@ -10,7 +10,7 @@ static inline _RegSet* sys_exit(_RegSet *r){
   return NULL;
 }
 
-uintptr_t sys_write(int fd,void *buf,int len)
+_RegSet* sys_write(int fd,void *buf,int len)
 {
   uintptr_t i=0;
   if(fd==1||fd==2)
@@ -21,12 +21,11 @@ uintptr_t sys_write(int fd,void *buf,int len)
         i++;
     }
   }
-  return i;
+  return NULL;
 }
 
 _RegSet* do_syscall(_RegSet *r) {
   uintptr_t a[4];
-//   uintptr_t res=-1;
   a[0] = SYSCALL_ARG1(r);
   a[1] = SYSCALL_ARG2(r);
   a[2] = SYSCALL_ARG3(r);
@@ -35,7 +34,7 @@ _RegSet* do_syscall(_RegSet *r) {
   switch (a[0]) {
     case SYS_none:return sys_none(r);break;
     case SYS_exit:return sys_exit(r);break;
-    case SYS_write:sys_write(a[1],(void*)a[2],a[3]);break;
+    case SYS_write:return sys_write(a[1],(void*)a[2],a[3]);break;
     case SYS_brk:return 0;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
