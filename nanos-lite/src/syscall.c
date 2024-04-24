@@ -37,8 +37,8 @@ static inline _RegSet* sys_open(_RegSet *r){
 static inline _RegSet* sys_read(_RegSet *r)
 {
     int fd=(int)SYSCALL_ARG2(r);
-    char *buf=(int)SYSCALL_ARG3(r);
-    size_t count=(int)SYSCALL_ARG4(r);
+    char *buf=(char*)SYSCALL_ARG3(r);
+    size_t count=(size_t)SYSCALL_ARG4(r);
     SYSCALL_ARG1(r)=fs_read(fd,buf,count);
     return NULL;
 }
@@ -55,9 +55,9 @@ static inline _RegSet* sys_close(_RegSet *r)
 static inline _RegSet* sys_lseek(_RegSet *r)
 {
     int fd=(int)SYSCALL_ARG2(r);
-    off_t offset=(int)SYSCALL_ARG3(r);
+    off_t offset=(off_t)SYSCALL_ARG3(r);
     int whence=(int)SYSCALL_ARG4(r);
-    SYSCALL_ARG1=fs_lseek(fd,offset,whence);
+    SYSCALL_ARG1(r)=fs_lseek(fd,offset,whence);
     return NULL;
 }
 _RegSet* do_syscall(_RegSet *r) {
