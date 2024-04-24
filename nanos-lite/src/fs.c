@@ -33,6 +33,10 @@ void init_fs() {
   file_table[FD_FB].size=_screen.height*_screen.width*4;
 }
 
+size_t fs_filesz(int fd) {
+	return file_table[fd].size;
+}
+
 int fs_open(const char *pathname,int flags,int mode)
 {
     Log("Pathname: %s", pathname);
