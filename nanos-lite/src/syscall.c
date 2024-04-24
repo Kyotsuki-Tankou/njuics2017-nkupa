@@ -66,7 +66,7 @@ _RegSet* do_syscall(_RegSet *r) {
   a[1] = SYSCALL_ARG2(r);
   a[2] = SYSCALL_ARG3(r);
   a[3] = SYSCALL_ARG4(r);
-//   printf("a[0]=%d SYS_node=%d SYS_exit=%d SYS_write=%d\n",a[0],SYS_none,SYS_exit,SYS_write);
+  printf("a[0]=%d SYS_node=%d SYS_exit=%d SYS_write=%d\n",a[0],SYS_none,SYS_exit,SYS_write);
   switch (a[0]) {
     case SYS_none:return sys_none(r);break;
     case SYS_exit:return sys_exit(r);break;
