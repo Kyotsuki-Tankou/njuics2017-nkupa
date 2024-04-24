@@ -69,7 +69,7 @@ ssize_t fs_read(int fd,void *buf,size_t len)
 
 ssize_t fs_write(int fd,const void *buf,size_t len)
 {
-    printf("fd=%d, fs_stdout=%d, fs_size=%d, fs_ssize=%d\n",fd,FD_STDOUT,len,file_table[fd].size);
+    // printf("fd=%d, fs_stdout=%d, fs_size=%d, fs_ssize=%d\n",fd,FD_STDOUT,len,file_table[fd].size);
     ssize_t fs_size=file_table[fd].size;
     // if(file_table[fd].open_offset+len>fs_size)  len=fs_size-file_table[fd].open_offset;
     
@@ -79,7 +79,7 @@ ssize_t fs_write(int fd,const void *buf,size_t len)
         case FD_STDERR:
             for(int i=0;i<len;i++)
             {
-                printf("fd=%d, fs_stdout=%d\n %s",fd,FD_STDOUT,(char*)buf);
+                printf("fd=%d, fs_stdout=%d\n %c",fd,FD_STDOUT,((char*)buf)[i]);
                 _putc(((char*)buf)[i]);
             }
             return len;
