@@ -71,7 +71,7 @@ _RegSet* do_syscall(_RegSet *r) {
     case SYS_none:return sys_none(r);break;
     case SYS_exit:return sys_exit(r);break;
     case SYS_write:return sys_write(r);break;
-    case SYS_brk:return NULL;
+    case SYS_brk:SYSCALL_ARG1(r)=0;return NULL;
     case SYS_open:return sys_open(r);break;
     case SYS_read:return sys_read(r);break;
     case SYS_close:return sys_close(r);break;
