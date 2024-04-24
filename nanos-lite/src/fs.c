@@ -69,7 +69,7 @@ ssize_t fs_read(int fd,void *buf,size_t len)
 
 ssize_t fs_write(int fd,const void *buf,size_t len)
 {
-    printf("fd=%d, fs_stdout=%d",fd,FD_STDOUT);
+    // printf("fd=%d, fs_stdout=%d\n",fd,FD_STDOUT);
     ssize_t fs_size=file_table[fd].size;
     if(file_table[fd].open_offset+len>fs_size)  len=fs_size-file_table[fd].open_offset;
     switch(fd)
