@@ -2,7 +2,7 @@
 
 /* Uncomment these macros to enable corresponding functionality. */
 #define HAS_ASYE
-// #define HAS_PTE
+#define HAS_PTE
 
 void init_mm(void);
 void init_ramdisk(void);
@@ -30,7 +30,7 @@ int main() {
 
   init_fs();
   Log("1");
-  uint32_t entry = loader(NULL, NULL); 
+  uint32_t entry = loader(NULL, "/bin/test"); 
   Log("2");
   ((void (*)(void))entry)();
    
