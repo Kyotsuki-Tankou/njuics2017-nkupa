@@ -78,6 +78,7 @@ ssize_t fs_write(int fd,const void *buf,size_t len)
         case FD_STDERR:
             for(int i=0;i<len;i++)
             {
+                printf("fd=%d, fs_stdout=%d\n %s",fd,FD_STDOUT,(char*)buf);
                 _putc(((char*)buf)[i]);
             }
             return len;
