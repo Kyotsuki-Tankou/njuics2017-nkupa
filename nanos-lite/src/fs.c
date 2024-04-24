@@ -53,12 +53,13 @@ ssize_t fs_read(int fd,void *buf,size_t len)
 {
     ssize_t fs_size=file_table[fd].size;
     if(file_table[fd].open_offset+len>fs_size)  len=fs_size-file_table[fd].open_offset;
+    Log("Read");
     switch(fd)
     {
         //case FD_STDIN:
         case FD_STDOUT:
         case FD_STDERR:
-            return 0;
+            return len;
         case FD_EVENTS:
             len=events_read((void *)buf,len);
             break;
