@@ -55,7 +55,7 @@ ssize_t fs_read(int fd,void *buf,size_t len)
     if(file_table[fd].open_offset+len>fs_size)  len=fs_size-file_table[fd].open_offset;
     switch(fd)
     {
-        case FD_STDIN:
+        //case FD_STDIN:
         case FD_STDOUT:
         case FD_STDERR:
             return 0;
