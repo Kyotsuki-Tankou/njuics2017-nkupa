@@ -116,19 +116,19 @@ off_t fs_lseek(int fd,off_t offset,int whence)
     off_t res=-1;
     switch(whence) {
 		case SEEK_SET:
-			if (offset >= 0 && offset <= fs_filesz(fd)) {
+			if (offset >= 0 && offset <= file_table[fd].size) {
 				file_table[fd].open_offset = offset;
 				res = file_table[fd].open_offset;
 			}
 			break;
 		case SEEK_CUR:
-			if ((offset + file_table[fd].open_offset >= 0) && (offset + file_table[fd].open_offset <= fs_filesz(fd))) {
+			if ((offset + file_table[fd].open_offset >= 0) && (offset + file_table[fd].open_offset <= file_table[fd].size)) {
 				file_table[fd].open_offset += offset;
 				res = file_table[fd].open_offset;
 			}
 			break;
 		case SEEK_END:
-			file_table[fd].open_offset = fs_filesz(fd) + offset;
+			file_table[fd].open_offset = file_table[fd].size + offset;
 			res = file_table[fd].open_offset;
 			break;
 	}
