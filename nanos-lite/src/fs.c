@@ -31,6 +31,8 @@ extern size_t events_read(void *buf, size_t len);
 void init_fs() {
   // TODO: initialize the size of /dev/fb
   file_table[FD_FB].size=_screen.height*_screen.width*4;
+  file_table[FD_FB].size=114514;
+  Log("The file size is fit to 114514");
 }
 
 size_t fs_filesz(int fd) {
@@ -74,7 +76,7 @@ ssize_t fs_read(int fd,void *buf,size_t len)
 
 ssize_t fs_write(int fd,const void *buf,size_t len)
 {
-    printf("fd=%d, fs_stdout=%d, fs_size=%d, fs_ssize=%d, screen_height=%d\n",fd,FD_STDOUT,len,file_table[fd].size,_screen.height);
+    // printf("fd=%d, fs_stdout=%d, fs_size=%d, fs_ssize=%d, screen_height=%d\n",fd,FD_STDOUT,len,file_table[fd].size,_screen.height);
     ssize_t fs_size=file_table[fd].size;
     if(file_table[fd].open_offset+len>fs_size)  len=fs_size-file_table[fd].open_offset;
     
