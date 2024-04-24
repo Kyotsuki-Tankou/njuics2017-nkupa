@@ -31,12 +31,13 @@ extern size_t events_read(void *buf, size_t len);
 void init_fs() {
   // TODO: initialize the size of /dev/fb
   file_table[FD_FB].size=_screen.height*_screen.width*4;
-  file_table[FD_FB].size=114514;
+//   file_table[FD_FB].size=114514;
   Log("The file size is fit to 114514");
 }
 
 size_t fs_filesz(int fd) {
-	return file_table[fd].size;
+	// return file_table[fd].size;
+    return 114514;
 }
 
 int fs_open(const char *pathname,int flags,int mode)
@@ -52,7 +53,8 @@ int fs_open(const char *pathname,int flags,int mode)
 
 ssize_t fs_read(int fd,void *buf,size_t len)
 {
-    ssize_t fs_size=file_table[fd].size;
+    // ssize_t fs_size=file_table[fd].size;
+    ssize_t fs_size=fs_filesz(fd);
     if(file_table[fd].open_offset+len>fs_size)  len=fs_size-file_table[fd].open_offset;
     Log("FS-Read");
     switch(fd)
@@ -76,8 +78,9 @@ ssize_t fs_read(int fd,void *buf,size_t len)
 
 ssize_t fs_write(int fd,const void *buf,size_t len)
 {
-    printf("fd=%d, fs_stdout=%d, fs_size=%d, fs_ssize=%d, screen_height=%d\n",fd,FD_STDOUT,len,file_table[fd].size,_screen.height);
-    ssize_t fs_size=file_table[fd].size;
+    // printf("fd=%d, fs_stdout=%d, fs_size=%d, fs_ssize=%d, screen_height=%d\n",fd,FD_STDOUT,len,file_table[fd].size,_screen.height);
+    // ssize_t fs_size=file_table[fd].size;
+    ssize_t fs_size=fs_filesz(fd);
     if(file_table[fd].open_offset+len>fs_size)  len=fs_size-file_table[fd].open_offset;
     
     switch(fd)
@@ -108,19 +111,19 @@ off_t fs_lseek(int fd,off_t offset,int whence)
     off_t res=-1;
     switch(whence) {
 		case SEEK_SET:
-			if (offset >= 0 && offset <= file_table[fd].size) {
+			if (offset >= 0 && offset <= fs_filesz(fd)) {
 				file_table[fd].open_offset = offset;
 				res = file_table[fd].open_offset;
 			}
 			break;
 		case SEEK_CUR:
-			if ((offset + file_table[fd].open_offset >= 0) && (offset + file_table[fd].open_offset <= file_table[fd].size)) {
+			if ((offset + file_table[fd].open_offset >= 0) && (offset + file_table[fd].open_offset <= fs_filesz(fd))) {
 				file_table[fd].open_offset += offset;
 				res = file_table[fd].open_offset;
 			}
 			break;
 		case SEEK_END:
-			file_table[fd].open_offset = file_table[fd].size + offset;
+			file_table[fd].open_offset = fs_filesz(fd) + offset;
 			res = file_table[fd].open_offset;
 			break;
 	}
