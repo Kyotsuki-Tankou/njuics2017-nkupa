@@ -71,7 +71,7 @@ _RegSet* do_syscall(_RegSet *r) {
     case SYS_none:return sys_none(r);break;
     case SYS_exit:return sys_exit(r);break;
     case SYS_write:return sys_write(r);break;
-    case SYS_brk:return 0;
+    case SYS_brk:return NULL;
     case SYS_open:return sys_open(r);break;
     case SYS_read:return sys_read(r);break;
     case SYS_close:return sys_close(r);break;
@@ -80,3 +80,25 @@ _RegSet* do_syscall(_RegSet *r) {
   }
   return NULL;
 }
+/*
+  SYS_none,0
+  SYS_open,1
+  SYS_read,2
+  SYS_write,3
+  SYS_exit,4
+  SYS_kill,5
+  SYS_getpid,6
+  SYS_close,7
+  SYS_lseek,8
+  SYS_brk,9
+  SYS_fstat,10
+  SYS_time,11
+  SYS_signal,12
+  SYS_execve,13
+  SYS_fork,14
+  SYS_link,15
+  SYS_unlink,16
+  SYS_wait,17
+  SYS_times,17
+  SYS_gettimeofday,19
+*/
