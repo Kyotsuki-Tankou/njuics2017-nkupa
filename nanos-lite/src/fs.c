@@ -32,7 +32,7 @@ void init_fs() {
   // TODO: initialize the size of /dev/fb
   file_table[FD_FB].size=_screen.height*_screen.width*4;
 //   file_table[FD_FB].size=114514;
-  Log("The file size is fit to 114514");
+//   Log("The file size is fit to 114514");
 }
 
 size_t fs_filesz(int fd) {
@@ -42,7 +42,7 @@ size_t fs_filesz(int fd) {
 
 int fs_open(const char *pathname,int flags,int mode)
 {
-    Log("Pathname: %s", pathname);
+    // Log("Pathname: %s", pathname);
     for(int i=0;i<NR_FILES;i++)
     {
         printf("%s\n",file_table[i].name);
@@ -61,7 +61,7 @@ ssize_t fs_read(int fd,void *buf,size_t len)
     // ssize_t fs_size=file_table[fd].size;
     ssize_t fs_size=fs_filesz(fd);
     if(file_table[fd].open_offset+len>fs_size)  len=fs_size-file_table[fd].open_offset;
-    Log("FS-Read");
+    // Log("FS-Read");
     switch(fd)
     {
         //case FD_STDIN:
