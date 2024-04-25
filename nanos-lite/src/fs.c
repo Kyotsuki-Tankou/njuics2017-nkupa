@@ -90,7 +90,7 @@ ssize_t fs_write(int fd,const void *buf,size_t len)
     // printf("fd=%d, fs_stdout=%d, fs_size=%d, fs_ssize=%d, screen_height=%d\n",fd,FD_STDOUT,len,file_table[fd].size,_screen.height);
     // ssize_t fs_size=file_table[fd].size;
     ssize_t fs_size=fs_filesz(fd);
-    if(file_table[fd].open_offset+len>fs_size)  len=fs_size-file_table[fd].open_offset;
+    // if(file_table[fd].open_offset+len>fs_size)  len=fs_size-file_table[fd].open_offset;
     
     switch(fd)
     {
