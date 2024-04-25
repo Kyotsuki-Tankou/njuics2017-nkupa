@@ -66,8 +66,9 @@ ssize_t fs_read(int fd,void *buf,size_t len)
     {
         //case FD_STDIN:
         case FD_STDOUT:
+        case FD_STDIN:
         case FD_STDERR:
-            return len;
+            return 0;
         case FD_EVENTS:
             len=events_read((void *)buf,len);
             break;
@@ -76,7 +77,7 @@ ssize_t fs_read(int fd,void *buf,size_t len)
             file_table[fd].open_offset+=len;
             break;
         default:
-            if(fd!=FD_DISPINFO)  ramdisk_read(buf,file_table[fd].disk_offset+file_table[fd].open_offset,len);
+            ramdisk_read(buf,file_table[fd].disk_offset+file_table[fd].open_offset,len);
             file_table[fd].open_offset+=len;
             return len;
     }
