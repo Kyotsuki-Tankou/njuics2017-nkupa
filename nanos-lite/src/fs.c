@@ -70,7 +70,7 @@ ssize_t fs_read(int fd,void *buf,size_t len)
         case FD_STDERR:
             return 0;
         case FD_EVENTS:
-            // Log("FD_EVENTS");
+            Log("FD_EVENTS");
             len=events_read((void *)buf,len);
             break;
         case FD_DISPINFO:
