@@ -11,8 +11,8 @@ static const char *keyname[256] __attribute__((used)) = {
 size_t events_read(void *buf, size_t len) {
 //   return 0;
     int key=_read_key();
-    bool down=key&0x0800?true:false;
-    key=key&0x0800?key^0x0800:key;
+    bool down=(key&0x0800)?true:false;
+    key=(key&0x0800)?key^0x0800:key;
     unsigned int t=_uptime();
     if(key==_KEY_NONE)  sprintf(buf,"t %d\n",t);
     else  sprintf(buf,"%s %s\n",down?"kd":"ku",keyname[key]);
