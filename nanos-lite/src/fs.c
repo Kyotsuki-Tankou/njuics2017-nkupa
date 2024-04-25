@@ -36,8 +36,8 @@ void init_fs() {
 }
 
 size_t fs_filesz(int fd) {
-	// return file_table[fd].size;
-    return 114514;
+	return file_table[fd].size;
+    // return 114514;
 }
 
 int fs_open(const char *pathname,int flags,int mode)
