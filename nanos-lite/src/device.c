@@ -10,13 +10,22 @@ static const char *keyname[256] __attribute__((used)) = {
 
 size_t events_read(void *buf, size_t len) {
 //   return 0;
-    int key=_read_key();
-    bool down=(key&0x8000)?true:false;
-    key=(key&0x8000)?key^0x8000:key;
-    unsigned int t=_uptime();
-    if(key==_KEY_NONE)  sprintf(buf,"t %d\n",t);
-    else  sprintf(buf,"%s %s\n",down?"kd":"ku",keyname[key]);
-    return strlen(buf);
+    Log("111\n");
+    int key = _read_key();
+	bool down = false;
+	if (key & 0x8000) {
+		key ^= 0x8000;
+		down = true;
+	}
+    if (key == _KEY_NONE) {
+		unsigned long t = _uptime();
+		sprintf(buf, "t %d\n", t);
+	}
+    else {
+		sprintf(buf, "%s %s\n", down ? "kd" : "ku", keyname[key]);
+		Log("Get key: %d %s %s\n", key, keyname[key], down ? "down" : "up");
+	}
+	return strlen(buf);
 }
 
 static char dispinfo[128] __attribute__((used));
