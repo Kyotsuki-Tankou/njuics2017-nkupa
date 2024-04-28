@@ -10,7 +10,7 @@ static const char *keyname[256] __attribute__((used)) = {
 
 size_t events_read(void *buf, size_t len) {
 //   return 0;
-    Log("111\n");
+    Log("Event Reading\n");
     int key = _read_key();
 	bool down = false;
 	if (key & 0x8000) {
