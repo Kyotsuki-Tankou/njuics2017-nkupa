@@ -61,7 +61,7 @@ ssize_t fs_read(int fd,void *buf,size_t len)
     // ssize_t fs_size=file_table[fd].size;
     ssize_t fs_size=fs_filesz(fd);
     if(file_table[fd].open_offset+len>fs_size)  len=fs_size-file_table[fd].open_offset;
-    printf("fs_read=%d  FD_EVENTS=%d\n",fd,FD_EVENTS);
+    printf("fs_read=%d  FD_EVENTS=%d\nnlen=%d",fd,FD_EVENTS,len);
     switch(fd)
     {
         //case FD_STDIN:
