@@ -34,5 +34,6 @@ void _draw_sync() {
 }
 
 int _read_key() {
+  putstr('1');
   return inb(0x64)?inl(0x60):_KEY_NONE;
 }
