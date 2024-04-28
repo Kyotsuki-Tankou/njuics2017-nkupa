@@ -12,7 +12,7 @@ size_t events_read(void *buf, size_t len) {
 //   return 0;
     
     int key = _read_key();
-    Log("Event Reading key=%x\n",key);
+    Log("Event Reading key=%x, len=%d\n",key, len);
 	bool down = false;
 	if (key & 0x8000) {
 		key ^= 0x8000;
