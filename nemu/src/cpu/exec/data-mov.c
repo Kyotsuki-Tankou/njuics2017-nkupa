@@ -60,16 +60,18 @@ make_EHelper(cltd) {
   print_asm(decoding.is_operand_size_16 ? "cwtl" : "cltd");
 }
 
-// make_EHelper(cwtl) {
-//   if (decoding.is_operand_size_16) {
-//     TODO();
-//   }
-//   else {
-//     TODO();
-//   }
+make_EHelper(cwtl) {
+  if (decoding.is_operand_size_16) {
+    rtl_sext(&t0,&cpu.eax,1);
+    cpu.eax = (cpu.eax & 0xffff0000) | (t0 & 0xffff);
+  }
+  else {
+    rtl_sext(&t0,&cpu.eax,2);
+    cpu.eax = t0;
+  }
 
-//   print_asm(decoding.is_operand_size_16 ? "cbtw" : "cwtl");
-// }
+  print_asm(decoding.is_operand_size_16 ? "cbtw" : "cwtl");
+}
 
 make_EHelper(movsx) {
   id_dest->width = decoding.is_operand_size_16 ? 2 : 4;
