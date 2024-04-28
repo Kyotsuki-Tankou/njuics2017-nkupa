@@ -58,30 +58,53 @@ int fs_open(const char *pathname,int flags,int mode)
 
 ssize_t fs_read(int fd,void *buf,size_t len)
 {
-    // ssize_t fs_size=file_table[fd].size;
-    ssize_t fs_size=fs_filesz(fd);
-    if(file_table[fd].open_offset+len>fs_size)  len=fs_size-file_table[fd].open_offset;
-    printf("fs_read: %d  FD_EVENTS: %d\n",fd,FD_EVENTS);
-    switch(fd)
-    {
-        //case FD_STDIN:
-        case FD_STDOUT:
-        case FD_STDIN:
-        case FD_STDERR:
-            return 0;
-        case FD_EVENTS:
-            len=events_read((void *)buf,len);
-            break;
-        case FD_DISPINFO:
-            dispinfo_read(buf,file_table[fd].open_offset,len);
-            file_table[fd].open_offset+=len;
-            break;
-        default:
-            ramdisk_read(buf,file_table[fd].disk_offset+file_table[fd].open_offset,len);
-            file_table[fd].open_offset+=len;
-            return len;
-    }
-    return len;
+    // // ssize_t fs_size=file_table[fd].size;
+    // ssize_t fs_size=fs_filesz(fd);
+    // if(file_table[fd].open_offset+len>fs_size)  len=fs_size-file_table[fd].open_offset;
+    // printf("fs_read: %d  FD_EVENTS: %d\n",fd,FD_EVENTS);
+    // switch(fd)
+    // {
+    //     //case FD_STDIN:
+    //     case FD_STDOUT:
+    //     case FD_STDIN:
+    //     case FD_STDERR:
+    //         return 0;
+    //     case FD_EVENTS:
+    //         len=events_read((void *)buf,len);
+    //         break;
+    //     case FD_DISPINFO:
+    //         dispinfo_read(buf,file_table[fd].open_offset,len);
+    //         file_table[fd].open_offset+=len;
+    //         break;
+    //     default:
+    //         ramdisk_read(buf,file_table[fd].disk_offset+file_table[fd].open_offset,len);
+    //         file_table[fd].open_offset+=len;
+    //         return len;
+    // }
+    // return len;
+    ssize_t fs_size = fs_filesz(fd);
+	//if(file_table[fd].open_offset >= fs_size) //实际上不会出现这情况
+		//return 0;
+	if (file_table[fd].open_offset + len > fs_size) //偏移量不可以超过文件边界 超出部分舍弃
+		len = fs_size - file_table[fd].open_offset;
+	switch(fd) {
+		case FD_STDOUT:
+		case FD_STDERR:
+		case FD_STDIN:
+			return 0;
+		case FD_EVENTS:
+			len = events_read((void *)buf, len);
+			break;
+		case FD_DISPINFO:
+			dispinfo_read(buf, file_table[fd].open_offset, len);
+			file_table[fd].open_offset += len;	
+			break;
+		default:
+			ramdisk_read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
+			file_table[fd].open_offset += len;
+			break;
+	}
+	return len;
 }
 
 ssize_t fs_write(int fd,const void *buf,size_t len)
