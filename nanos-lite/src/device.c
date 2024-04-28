@@ -18,8 +18,8 @@ size_t events_read(void *buf, size_t len) {
 		down = true;
 	}
     if (key == _KEY_NONE) {
-		unsigned long t = _uptime();
-		sprintf(buf, "t %d\n", t);
+		// unsigned long t = _uptime();
+		// sprintf(buf, "t %d\n", t);
 	}
     else {
 		sprintf(buf, "%s %s\n", down ? "kd" : "ku", keyname[key]);
