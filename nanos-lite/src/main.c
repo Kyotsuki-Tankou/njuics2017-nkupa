@@ -30,7 +30,7 @@ int main() {
 
   init_fs();
   Log("1");
-  uint32_t entry = loader(NULL, "/bin/events"); 
+  uint32_t entry = loader(NULL, "/bin/bmptest"); 
   Log("2");
   Log("entry=%u\n",entry);
   ((void (*)(void))entry)();
