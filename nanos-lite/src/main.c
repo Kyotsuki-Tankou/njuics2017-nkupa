@@ -36,5 +36,6 @@ int main() {
 //   Log("entry=%u\n",entry);
 //   ((void (*)(void))entry)();
    load_prog("/bin/hello");
+   Log("Log end!\n");
   panic("Should not reach here");
 }
