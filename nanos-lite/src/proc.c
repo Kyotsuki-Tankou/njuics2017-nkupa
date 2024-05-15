@@ -25,7 +25,10 @@ void load_prog(const char *filename) {
 
 _RegSet* schedule(_RegSet *prev) {
   if(current!=NULL)  current->tf=prev;
-  current=((current==&pcb[0])?&pcb[1]:&pcb[0]);
+  static int freq=0;
+  if(current==&pcb[0]&&freq==1000)  freq=0,current=&pcb[1];
+  else  current=&pcb[0];
+  freq++;
   _switch(&current->as);
   return current->tf;
 }
