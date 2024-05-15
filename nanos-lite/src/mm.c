@@ -17,23 +17,41 @@ void free_page(void *p) {
 }
 
 /* The brk() system call handler. */
+// int mm_brk(uint32_t new_brk) {
+//     if(current->cur_brk==0)  current->cur_brk=current->max_brk=new_brk;
+//     else{
+//         if(new_brk>current->max_brk)
+//         {
+//             uintptr_t va=K4(current->max_brk);
+//             while(va<new_brk)
+//             {
+//                 void *pa=new_page();
+//                 _map(&current->as,(void*)va,pa);
+//                 va+=PGSIZE;
+//             }
+//             current->max_brk=new_brk;
+//         }
+//         current->cur_brk=new_brk;
+//     }
+//   return 0;
+// }
 int mm_brk(uint32_t new_brk) {
-    if(current->cur_brk==0)  current->cur_brk=current->max_brk=new_brk;
-    else{
-        if(new_brk>current->max_brk)
-        {
-            uintptr_t va=K4(current->max_brk);
-            while(va<new_brk)
-            {
-                void *pa=new_page();
-                _map(&current->as,(void*)va,pa);
-                va+=PGSIZE;
-            }
-            current->max_brk=new_brk;
-        }
-        current->cur_brk=new_brk;
-    }
-  return 0;
+	if (current->cur_brk == 0) {
+		current->cur_brk = current->max_brk = new_brk;
+	} else {
+		if (new_brk > current->max_brk) {
+	        	// TODO: map memory region [current->max_brk, new_brk)
+	        	// into address space current->as
+			uintptr_t va = K4(current->max_brk);//4k对齐
+	        	while(va < new_brk) {
+                		_map(&current->as, (void *)va, (void *)new_page());
+				va += PGSIZE;
+			}
+			current->max_brk = new_brk; // =va ?
+		}
+	current->cur_brk = new_brk;
+	}	
+	return 0;
 }
 
 void init_mm() {
