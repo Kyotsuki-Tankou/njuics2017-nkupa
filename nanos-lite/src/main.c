@@ -35,7 +35,7 @@ int main() {
 //   Log("2");
 //   Log("entry=%u\n",entry);
 //   ((void (*)(void))entry)();
-   load_prog("/bin/dummy");
+   load_prog("/bin/pal");
    Log("Log end!\n");
   panic("Should not reach here");
 }
