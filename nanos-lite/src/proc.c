@@ -20,8 +20,11 @@ void load_prog(const char *filename) {
   current = &pcb[i];
   Log("2");
   ((void (*)(void))entry)();
+  Log("2");
   _Area stack;
+  Log("2");
   stack.start = pcb[i].stack;
+  Log("2");
   stack.end = stack.start + sizeof(pcb[i].stack);
   pcb[i].tf = _umake(&pcb[i].as, stack, stack, (void *)entry, NULL, NULL);
 }
