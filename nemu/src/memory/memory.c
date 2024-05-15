@@ -37,12 +37,12 @@ paddr_t page_translate(vaddr_t addr, bool flag) {
     if (cpu.cr0.protect_enable&&cpu.cr0.paging) {
         pgdir=(PDE*)(PTE_ADDR(cpu.cr3.val));
         pde.val=paddr_read((paddr_t)&pgdir[PDX(addr)],4);
+        pde.accessed=1;
         assert(pde.present);
         
         pgtab=(PTE*)(PTE_ADDR(pde.val));
         pte.val=paddr_read((paddr_t)&pgtab[PTX(addr)],4);
         assert(pte.present);
-        pde.accessed=1;
         pte.accessed=1;
         if(flag)  pte.dirty=1;
         return PTE_ADDR(pte.val)|OFF(addr); 
