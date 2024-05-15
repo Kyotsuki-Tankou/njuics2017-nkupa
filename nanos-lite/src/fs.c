@@ -94,18 +94,13 @@ ssize_t fs_write(int fd,const void *buf,size_t len)
     switch(fd)
     {
         case FD_STDOUT:
-            for(int i=0;i<len;i++)
-                {
-                    _putc(((char*)buf)[i]);
-                }
-                Log("fd=%d",fd);
-                return len;
         case FD_STDERR:
             for(int i=0;i<len;i++)
             {
+                Log("%c",((char*)buf)[i]);
                 _putc(((char*)buf)[i]);
             }
-            Log("fd=%d",fd);
+            // Log("fd=%d",fd);
             return len;
         case FD_FB:
             fb_write(buf,file_table[fd].open_offset,len);
