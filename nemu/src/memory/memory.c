@@ -38,10 +38,12 @@ paddr_t page_translate(vaddr_t addr,bool flag)
     if(cr0.paging&&cr0.protect_enable)
     {
         PDE* pgdirs=(PDE*)PTE_ADDR(cr3.val);
-        PDE pde=(PDE)paddr_read((uint32_t)(pgdirs+PDX(addr)),4);
+        PDE pde;
+        pde.val=paddr_read((paddr_t)&pgdirs[PDX(addr)],4);
         assert(pde.present);
         PTE* pgtabs=(PTE*)PTE_ADDR(pde.val);
-        PTE pte=(PTE)paddr_read((uint32_t)(pgtabs+PDX(addr)),4);
+        PTE pte;
+        pte.val=paddr_read((paddr_t)&pgtabs[PTX(addr)],4);
         assert(pte.present);
         pde.accessed=1;
         pte.accessed=1;
@@ -51,7 +53,6 @@ paddr_t page_translate(vaddr_t addr,bool flag)
     }
     return addr;
 }
-
 // uint32_t vaddr_read(vaddr_t addr, int len) {
 //     if(PTE_ADDR(addr)!=PTE_ADDR(addr+len-1))
 //     {
@@ -75,6 +76,7 @@ paddr_t page_translate(vaddr_t addr,bool flag)
 //         return paddr_write(paddr, len,data);
 //     }
 // }
+
 uint32_t vaddr_read(vaddr_t addr, int len) {
   //PAGE_MASK = 0xfff
   if ((((addr) + (len) - 1) & ~PAGE_MASK) != ((addr) & ~PAGE_MASK)) {
