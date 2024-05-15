@@ -63,7 +63,7 @@ static inline _RegSet* sys_lseek(_RegSet *r)
 }
 static inline _RegSet* sys_brk(_RegSet *r)
 {
-    Log("1");
+    // Log("1");
     SYSCALL_ARG1(r)=mm_brk(SYSCALL_ARG2(r));
     return NULL;
 }
