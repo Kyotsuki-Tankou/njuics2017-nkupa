@@ -30,7 +30,7 @@ int mm_brk(uint32_t new_brk) {
             }
             current->max_brk=new_brk;
         }
-        current->max_brk=new_brk;
+        current->cur_brk=new_brk;
     }
   return 0;
 }
