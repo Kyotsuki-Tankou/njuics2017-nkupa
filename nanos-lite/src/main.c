@@ -30,7 +30,7 @@ int main() {
 
   init_fs();
   Log("1");
-  uint32_t entry = loader(NULL, "/bin/pal"); 
+  uint32_t entry = loader(NULL, "/bin/hello"); 
   Log("2");
   Log("entry=%u\n",entry);
   ((void (*)(void))entry)();
