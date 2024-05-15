@@ -9,6 +9,7 @@ void init_ramdisk(void);
 void init_device(void);
 void init_irq(void);
 void init_fs(void);
+void load_prog(const char *filename);
 uint32_t loader(_Protect *, const char *);
 
 int main() {
@@ -30,10 +31,10 @@ int main() {
 
   init_fs();
   Log("1");
-  uint32_t entry = loader(NULL, "/bin/hello"); 
-  Log("2");
-  Log("entry=%u\n",entry);
-  ((void (*)(void))entry)();
-   
+//   uint32_t entry = loader(NULL, "/bin/hello"); 
+//   Log("2");
+//   Log("entry=%u\n",entry);
+//   ((void (*)(void))entry)();
+   load_prog("/bin/dummy");
   panic("Should not reach here");
 }
