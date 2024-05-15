@@ -73,8 +73,8 @@ _RegSet* do_syscall(_RegSet *r) {
   a[1] = SYSCALL_ARG2(r);
   a[2] = SYSCALL_ARG3(r);
   a[3] = SYSCALL_ARG4(r);
-  Log("%d %d %d %d",a[0],a[1],a[2],a[3]);
-  printf("a[0]=%d SYS_node=%d SYS_write=%d SYS_brk=%d\n",a[0],SYS_none,SYS_write,SYS_brk);
+//   Log("%d %d %d %d",a[0],a[1],a[2],a[3]);
+//   printf("a[0]=%d SYS_node=%d SYS_write=%d SYS_brk=%d\n",a[0],SYS_none,SYS_write,SYS_brk);
   switch (a[0]) {
     case SYS_none:return sys_none(r);break;
     case SYS_exit:return sys_exit(r);break;
