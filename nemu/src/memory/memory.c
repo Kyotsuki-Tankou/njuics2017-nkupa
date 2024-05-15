@@ -54,8 +54,15 @@ paddr_t page_translate(vaddr_t addr, bool flag) {
 uint32_t vaddr_read(vaddr_t addr, int len) {
     if(PTE_ADDR(addr)!=PTE_ADDR(addr+len-1))
     {
-        printf("Error\n");
-        assert(0);
+        // printf("Error\n");
+        uint32_t data=0;
+        for(int i=0;i<len;i++)
+        {
+            paddr_t paddr=page_translate(addr+i,false);
+            data+=(paddr_read(paddr,1))<<8*i;
+        }
+        return data;
+        // assert(0);
     }   
     else{
         paddr_t paddr=page_translate(addr,false);
@@ -66,8 +73,13 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
     if(PTE_ADDR(addr)!=PTE_ADDR(addr+len-1))
     {
-        printf("Error\n");
-        assert(0);
+        // printf("Error\n");
+        // assert(0);
+        for(int i=0;i<len;i++)
+        {
+            paddr_t paddr=page_translate(addr+i,true);
+            paddr_write(paddr,1,data>>8*i);
+        }
     }   
     else{
         paddr_t paddr=page_translate(addr,true);
