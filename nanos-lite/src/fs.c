@@ -100,7 +100,7 @@ ssize_t fs_write(int fd,const void *buf,size_t len)
                 Log("%s",((char*)buf)[i]);
                 _putc(((char*)buf)[i]);
             }
-            // Log("fd=%d",fd);
+            Log("OUT_END",fd);
             return len;
         case FD_FB:
             fb_write(buf,file_table[fd].open_offset,len);
