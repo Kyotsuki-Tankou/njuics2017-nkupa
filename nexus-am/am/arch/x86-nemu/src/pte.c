@@ -76,7 +76,6 @@ void _map(_Protect *p, void *va, void *pa) {
 		    *pde=PTE_ADDR(pgtabs)|PTE_P;
     }
     pgtabs[PTX(va)]=PTE_ADDR(pa)|PTE_P;
-    Log
 }
 // void _map(_Protect *p, void *va, void *pa) {
 // 	PDE *pgdir = p->ptr;
