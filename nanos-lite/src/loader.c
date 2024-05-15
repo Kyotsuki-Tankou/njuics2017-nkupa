@@ -41,6 +41,7 @@ int fd = fs_open(filename, 0, 0);
 
   	va += PGSIZE;
   	bytes -= PGSIZE;
+    Log("1");
   }
   //fs_read(fd,DEFAULT_ENTRY,bytes);
   fs_close(fd);
