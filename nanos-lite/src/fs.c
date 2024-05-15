@@ -99,6 +99,7 @@ ssize_t fs_write(int fd,const void *buf,size_t len)
             {
                 _putc(((char*)buf)[i]);
             }
+            Log("3");
             return len;
         case FD_FB:
             fb_write(buf,file_table[fd].open_offset,len);
@@ -109,6 +110,7 @@ ssize_t fs_write(int fd,const void *buf,size_t len)
                 ramdisk_write(buf,file_table[fd].disk_offset+file_table[fd].open_offset,len);
             }
             file_table[fd].open_offset+=len;
+            Log("3");
             return len;
     }
     Log("3");
