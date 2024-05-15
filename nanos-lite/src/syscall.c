@@ -6,6 +6,7 @@ ssize_t fs_read(int fd, void *buf, size_t len);
 ssize_t fs_write(int fd, const void *buf, size_t len);
 off_t fs_lseek(int fd, off_t offset, int whence);
 int fs_close(int fd);
+int mm_brk(uint32_t new_brk);
 
 static inline _RegSet* sys_none(_RegSet *r){
   SYSCALL_ARG1(r) = 1;
@@ -60,6 +61,11 @@ static inline _RegSet* sys_lseek(_RegSet *r)
     SYSCALL_ARG1(r)=fs_lseek(fd,offset,whence);
     return NULL;
 }
+static inline _RegSet* sys_brk(_RegSet *r)
+{
+    SYSCALL_ARG1(r)=mm_brk(SYSCALL_ARG2(r));
+    return NULL;
+}
 _RegSet* do_syscall(_RegSet *r) {
   uintptr_t a[4];
   a[0] = SYSCALL_ARG1(r);
@@ -72,7 +78,7 @@ _RegSet* do_syscall(_RegSet *r) {
     case SYS_none:return sys_none(r);break;
     case SYS_exit:return sys_exit(r);break;
     case SYS_write:return sys_write(r);break;
-    case SYS_brk:SYSCALL_ARG1(r)=0;return NULL;
+    case SYS_brk:return sys_brk(r);break;
     case SYS_open:return sys_open(r);break;
     case SYS_read:return sys_read(r);break;
     case SYS_close:return sys_close(r);break;
