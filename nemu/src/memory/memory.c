@@ -50,79 +50,58 @@ paddr_t page_translate(vaddr_t addr, bool flag) {
 
     return addr;
 }
-// paddr_t page_translate(vaddr_t addr,bool flag)
-// {
-//     CR0 cr0=cpu.cr0;
-//     CR3 cr3=cpu.cr3;
-//     if(cr0.paging&&cr0.protect_enable)
-//     {
-//         PDE* pgdirs=(PDE*)PTE_ADDR(cr3.val);
-//         PDE pde;
-//         pde.val=paddr_read((paddr_t)&pgdirs[PDX(addr)],4);
-//         assert(pde.present);
-//         PTE* pgtabs=(PTE*)PTE_ADDR(pde.val);
-//         PTE pte;
-//         pte.val=paddr_read((paddr_t)&pgtabs[PTX(addr)],4);
-//         assert(pte.present);
-//         pde.accessed=1;
-//         pte.accessed=1;
-//         pte.dirty=flag?1:pte.dirty;
-//         paddr_t paddr=PTE_ADDR(pde.val)|OFF(addr);
-//         return paddr;
-//     }
-//     return addr;
-// }
-// uint32_t vaddr_read(vaddr_t addr, int len) {
-//     if(PTE_ADDR(addr)!=PTE_ADDR(addr+len-1))
-//     {
-//         printf("Error\n");
-//         assert(0);
-//     }   
-//     else{
-//         paddr_t paddr=page_translate(addr,false);
-//         return paddr_read(paddr, len);
-//     }
-// }
-
-// void vaddr_write(vaddr_t addr, int len, uint32_t data) {
-//     if(PTE_ADDR(addr)!=PTE_ADDR(addr+len-1))
-//     {
-//         printf("Error\n");
-//         assert(0);
-//     }   
-//     else{
-//         paddr_t paddr=page_translate(addr,true);
-//         return paddr_write(paddr, len,data);
-//     }
-// }
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
-  //PAGE_MASK = 0xfff
-  if ((((addr) + (len) - 1) & ~PAGE_MASK) != ((addr) & ~PAGE_MASK)) {
-	//data cross the page boundary
-	uint32_t data = 0;
-	for(int i=0;i<len;i++){
-		paddr_t paddr = page_translate(addr + i, false);
-		data += (paddr_read(paddr, 1))<<8*i;
-	}
-	return data;
-	//assert(0);
-  } else {
-    paddr_t paddr = page_translate(addr, false);
-    return paddr_read(paddr, len);
-  }
+    if(PTE_ADDR(addr)!=PTE_ADDR(addr+len-1))
+    {
+        printf("Error\n");
+        assert(0);
+    }   
+    else{
+        paddr_t paddr=page_translate(addr,false);
+        return paddr_read(paddr, len);
+    }
 }
 
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
-  if ((((addr) + (len) - 1) & ~PAGE_MASK) != ((addr) & ~PAGE_MASK)) {
-	//data cross the page boundary
-	for(int i=0;i<len;i++){ //len 最大为4
-		paddr_t paddr = page_translate(addr + i,true);
-		paddr_write(paddr,1,data>>8*i);
-	}
-	//assert(0);
-  } else {
-    paddr_t paddr = page_translate(addr, true);
-    paddr_write(paddr, len, data);
-  }
+    if(PTE_ADDR(addr)!=PTE_ADDR(addr+len-1))
+    {
+        printf("Error\n");
+        assert(0);
+    }   
+    else{
+        paddr_t paddr=page_translate(addr,true);
+        return paddr_write(paddr, len,data);
+    }
 }
+
+// uint32_t vaddr_read(vaddr_t addr, int len) {
+//   //PAGE_MASK = 0xfff
+//   if ((((addr) + (len) - 1) & ~PAGE_MASK) != ((addr) & ~PAGE_MASK)) {
+// 	//data cross the page boundary
+// 	uint32_t data = 0;
+// 	for(int i=0;i<len;i++){
+// 		paddr_t paddr = page_translate(addr + i, false);
+// 		data += (paddr_read(paddr, 1))<<8*i;
+// 	}
+// 	return data;
+// 	//assert(0);
+//   } else {
+//     paddr_t paddr = page_translate(addr, false);
+//     return paddr_read(paddr, len);
+//   }
+// }
+
+// void vaddr_write(vaddr_t addr, int len, uint32_t data) {
+//   if ((((addr) + (len) - 1) & ~PAGE_MASK) != ((addr) & ~PAGE_MASK)) {
+// 	//data cross the page boundary
+// 	for(int i=0;i<len;i++){ //len 最大为4
+// 		paddr_t paddr = page_translate(addr + i,true);
+// 		paddr_write(paddr,1,data>>8*i);
+// 	}
+// 	//assert(0);
+//   } else {
+//     paddr_t paddr = page_translate(addr, true);
+//     paddr_write(paddr, len, data);
+//   }
+// }
