@@ -19,7 +19,7 @@ uintptr_t loader(_Protect *as, const char *filename) {
     if(size%PGSIZE==0)  pnums++;
     void *pa=NULL;
     void *va=DEFAULT_ENTRY;
-    for(int i=0;i<pnums;i++)
+    for(int i=0;i<=pnums;i++)
     {
         pa=new_page();//申请空闲页
         _map(as,va,pa);//物理页->用户程序虚拟地址
