@@ -84,34 +84,65 @@ ssize_t fs_read(int fd,void *buf,size_t len)
     return len;
 }
 
-ssize_t fs_write(int fd,const void *buf,size_t len)
-{
-    // printf("fd=%d, fs_stdout=%d, fs_size=%d, fs_ssize=%d, screen_height=%d\n",fd,FD_STDOUT,len,file_table[fd].size,_screen.height);
-    // ssize_t fs_size=file_table[fd].size;
-    ssize_t fs_size=fs_filesz(fd);
-    // if(file_table[fd].open_offset+len>fs_size)  len=fs_size-file_table[fd].open_offset;
+// ssize_t fs_write(int fd,const void *buf,size_t len)
+// {
+//     // printf("fd=%d, fs_stdout=%d, fs_size=%d, fs_ssize=%d, screen_height=%d\n",fd,FD_STDOUT,len,file_table[fd].size,_screen.height);
+//     // ssize_t fs_size=file_table[fd].size;
+//     ssize_t fs_size=fs_filesz(fd);
+//     // if(file_table[fd].open_offset+len>fs_size)  len=fs_size-file_table[fd].open_offset;
     
-    switch(fd)
-    {
-        case FD_STDOUT:
-        case FD_STDERR:
-            for(int i=0;i<len;i++)
-            {
-                _putc(((char*)buf)[i]);
-            }
-            return len;
-        case FD_FB:
-            fb_write(buf,file_table[fd].open_offset,len);
-        default:
-            if(fd!=FD_FB)
-            {
-                if(file_table[fd].open_offset+len>fs_size)  len=fs_size-file_table[fd].open_offset;
-                ramdisk_write(buf,file_table[fd].disk_offset+file_table[fd].open_offset,len);
-            }
-            file_table[fd].open_offset+=len;
-            return len;
-    }
-    return len;
+//     switch(fd)
+//     {
+//         case FD_STDOUT:
+//         case FD_STDERR:
+//             for(int i=0;i<len;i++)
+//             {
+//                 _putc(((char*)buf)[i]);
+//             }
+//             return len;
+//         case FD_FB:
+//             fb_write(buf,file_table[fd].open_offset,len);
+//         default:
+//             if(fd!=FD_FB)
+//             {
+//                 if(file_table[fd].open_offset+len>fs_size)  len=fs_size-file_table[fd].open_offset;
+//                 ramdisk_write(buf,file_table[fd].disk_offset+file_table[fd].open_offset,len);
+//             }
+//             file_table[fd].open_offset+=len;
+//             return len;
+//     }
+//     return len;
+// }
+ssize_t fs_write(int fd, const void *buf, size_t len) {
+	ssize_t fs_size = fs_filesz(fd);
+	switch(fd) {
+		case FD_STDOUT:
+		case FD_STDERR:
+			// call _putc()
+			// 串口已被抽象成stdout stderr
+			for(int i = 0; i < len; i++) {
+				_putc(((char*)buf)[i]);
+			}
+			break;
+		case FD_FB:
+			// write to frame buffer 显存
+			// device.c:fb_write buff中len字节输出到屏幕上offest处
+			fb_write(buf, file_table[fd].open_offset, len);
+			file_table[fd].open_offset += len;
+			break;
+		default:
+			// write to ramdisk
+			//if(file_table[fd].open_offset >= fs_size)
+				//return 0;	
+			if(file_table[fd].open_offset + len > fs_size)
+				len = fs_size - file_table[fd].open_offset;
+			// 对文件的真正读写
+			ramdisk_write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
+			file_table[fd].open_offset += len;
+			//Log("offset = %d", file_table[fd].open_offset);
+			break;
+	}
+	return len;// 参见man 返回值
 }
 
 off_t fs_lseek(int fd,off_t offset,int whence)
