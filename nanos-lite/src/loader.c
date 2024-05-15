@@ -27,6 +27,5 @@ uintptr_t loader(_Protect *as, const char *filename) {
         va+=PGSIZE;
     }
     fs_close(fd);
-    Log("2");
   return (uintptr_t)DEFAULT_ENTRY;
 }

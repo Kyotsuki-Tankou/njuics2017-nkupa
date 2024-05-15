@@ -13,7 +13,6 @@ void load_prog(const char *filename) {
   _protect(&pcb[i].as);
 
   uintptr_t entry = loader(&pcb[i].as, filename);
-
   // TODO: remove the following three lines after you have implemented _umake()
   _switch(&pcb[i].as);
   current = &pcb[i];
@@ -24,6 +23,7 @@ void load_prog(const char *filename) {
   stack.end = stack.start + sizeof(pcb[i].stack);
 
   pcb[i].tf = _umake(&pcb[i].as, stack, stack, (void *)entry, NULL, NULL);
+  Log("2");
 }
 
 _RegSet* schedule(_RegSet *prev) {
