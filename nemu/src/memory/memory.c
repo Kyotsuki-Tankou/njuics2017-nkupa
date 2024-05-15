@@ -42,8 +42,13 @@ paddr_t page_translate(vaddr_t addr, bool flag) {
         
         pgtab=(PTE*)(PTE_ADDR(pde.val));
         pte.val=paddr_read((paddr_t)&pgtab[PTX(addr)],4);
-        Log("%x",addr);
-        assert(pte.present);
+        
+        if(!pte.present)
+        {
+            Log("%x",addr);
+            assert(pte.present);
+        }
+        
         pte.accessed=1;
         if(flag)  pte.dirty=1;
         return PTE_ADDR(pte.val)|OFF(addr); 
