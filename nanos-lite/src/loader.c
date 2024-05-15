@@ -16,7 +16,7 @@ uintptr_t loader(_Protect *as, const char *filename) {
     // fs_read(fd,DEFAULT_ENTRY,fs_filesz(fd));
     int size=fs_filesz(fd);
     int pnums=size/PGSIZE;
-    if(!size%PGSIZE)  pnums++;
+    if(size%PGSIZE==0)  pnums++;
     void *pa=NULL;
     void *va=DEFAULT_ENTRY;
     for(int i=0;i<pnums;i++)
