@@ -73,9 +73,10 @@ void _map(_Protect *p, void *va, void *pa) {
     else
     {
         pgtabs=(PTE *)palloc_f();
-		*pde=PTE_ADDR(pgtabs)|PTE_P;
+		    *pde=PTE_ADDR(pgtabs)|PTE_P;
     }
     pgtabs[PTX(va)]=PTE_ADDR(pa)|PTE_P;
+    Log
 }
 // void _map(_Protect *p, void *va, void *pa) {
 // 	PDE *pgdir = p->ptr;
