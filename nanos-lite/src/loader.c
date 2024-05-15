@@ -25,7 +25,6 @@ uintptr_t loader(_Protect *as, const char *filename) {
         _map(as,va,pa);//物理页->用户程序虚拟地址
         fs_read(fd,pa,PGSIZE);//读一页
         va+=PGSIZE;
-        Log("1");
     }
     fs_close(fd);
   return (uintptr_t)DEFAULT_ENTRY;
