@@ -69,8 +69,12 @@ void _map(_Protect *p, void *va, void *pa) {
     PDE *pgdirs=p->ptr;
     PDE *pde=&pgdirs[PDX(va)];
     PTE *pgtabs;
-    pgtabs=(*pde&PTE_P)?(PTE*)PTE_ADDR(*pde):(PTE*)palloc_f();
-    if(*pde&PTE_P)  *pde=PTE_ADDR(pgtabs)|PTE_P;
+    if(*pde&PTE_P)  pgtabs=(PTE*)PTE_ADDR(*pde);
+    else
+    {
+        pgtabs=(PTE *)palloc_f();
+		*pde=PTE_ADDR(pgtabs)|PTE_P;
+    }
     pgtabs[PTX(va)]=PTE_ADDR(pa)|PTE_P;
 }
 // void _map(_Protect *p, void *va, void *pa) {
