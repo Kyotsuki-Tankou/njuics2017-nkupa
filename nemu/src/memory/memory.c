@@ -20,10 +20,57 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
   else  mmio_write(addr,len,data,is_mmio(addr));
 }
 
+//x86.h
+// +--------10------+-------10-------+---------12----------+
+// | Page Directory |   Page Table   | Offset within Page  |
+// |      Index     |      Index     |                     |
+// +----------------+----------------+---------------------+
+//  \--- PDX(va) --/ \--- PTX(va) --/\------ OFF(va) ------/
+#define PDX(va)     (((uint32_t)(va) >> 22) & 0x3ff)
+#define PTX(va)     (((uint32_t)(va) >> 12) & 0x3ff)
+#define OFF(va)     ((uint32_t)(va) & 0xfff)
+#define PTE_ADDR(pte)   ((uint32_t)(pte) & ~0xfff)
+
+paddr_t page_translate(vaddr_t addr,bool flag)
+{
+    CR0 cr0=cpu.cr0;
+    CR3 cr3=cpu.cr3;
+    if(cr0.paging&&cr0.protect_enable)
+    {
+        PDE* pgdirs=(PDE*)PTE_ADDR(cr3.val);
+        PDE pde=(PDE)paddr_read((uint32_t)(pgdirs+PDX(addr)),4);
+        assert(pde.present);
+        PTE* pgtabs=(PTE*)PTE_ADDR(pde.val);
+        PTE pte=(PTE)paddr_read((uint32_t)(pgtabs+PDX(addr)),4);
+        assert(pte.present);
+        pde.accessed=1;
+        pte.accessed=1;
+        pte.dirty=flag?1:pte.dirty;
+        paddr_t paddr=PTE_ADDR(pde.val)|OFF(addr);
+        return paddr;
+    }
+    return addr;
+}
 uint32_t vaddr_read(vaddr_t addr, int len) {
-  return paddr_read(addr, len);
+    if(PTE_ADDR(addr)!=PTE_ADDR(addr+len-1))
+    {
+        printf("Error\n");
+        assert(0);
+    }   
+    else{
+        paddr_t paddr=page_translate(addr,false);
+        return paddr_read(paddr, len);
+    }
 }
 
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
-  paddr_write(addr, len, data);
+    if(PTE_ADDR(addr)!=PTE_ADDR(addr+len-1))
+    {
+        printf("Error\n");
+        assert(0);
+    }   
+    else{
+        paddr_t paddr=page_translate(addr,true);
+        return paddr_write(paddr, len,data);
+    }
 }
