@@ -35,9 +35,9 @@ int main() {
 //   Log("2");
 //   Log("entry=%u\n",entry);
 //   ((void (*)(void))entry)();
-   load_prog("/bin/pal");
-   load_prog("/bin/hello");
    load_prog("/bin/videotest");
+   load_prog("/bin/hello");
+   load_prog("/bin/pal");
    Log("Log end!\n");
    _trap();
   panic("Should not reach here");
