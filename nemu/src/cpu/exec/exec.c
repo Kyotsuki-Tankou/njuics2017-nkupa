@@ -13,7 +13,7 @@ typedef struct {
 #define EX(ex)             EXW(ex, 0)
 #define EMPTY              EX(inv)
 //id:译码 ex：执行 W：取字
-#define TIME_IRQ 32
+#define TIME_IRQ 0x32
 void raise_intr(uint8_t, vaddr_t);
 static inline void set_width(int width) {
   if (width == 0) {
