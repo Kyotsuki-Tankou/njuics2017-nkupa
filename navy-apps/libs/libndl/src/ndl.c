@@ -139,6 +139,8 @@ static void get_display_info() {
 
   }
   fclose(dispinfo);
+//   if(screen_w==0)  screen_w=400;
+//   if(screen_h==0)  screen_h=300;
   printf("width:%d\nheight:%d\n",screen_w,screen_h);
   assert(screen_w > 0 && screen_h > 0);
 }
