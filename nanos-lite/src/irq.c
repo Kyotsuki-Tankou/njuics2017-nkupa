@@ -8,7 +8,7 @@ static _RegSet* do_event(_Event e, _RegSet* r) {
     // case _EVENT_ERROR: return do_syscall(r);
     case _EVENT_SYSCALL: do_syscall(r);//return schedule(r);
     case _EVENT_TRAP:  return schedule(r);
-    case _EVENT_IRQ_TIME:Log("event time");return schedule(r);
+    case _EVENT_IRQ_TIME:;return schedule(r);//Log("event time")
     default: panic("Unhandled event ID = %d", e.event);
   }
 
