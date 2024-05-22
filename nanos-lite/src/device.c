@@ -39,7 +39,7 @@ static char dispinfo[128] __attribute__((used));
 void dispinfo_read(void *buf, off_t offset, size_t len) {
     
     strncpy(buf,dispinfo+offset,len);
-    Log("%s",buf);
+    Log("%s %s %d %d",buf,dispinfo,len,offset);
 }
 
 void fb_write(const void *buf, off_t offset, size_t len) {
