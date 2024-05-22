@@ -129,6 +129,7 @@ static void get_display_info() {
   FILE *dispinfo = fopen("/proc/dispinfo", "r");
   assert(dispinfo);
   screen_w = screen_h = 0;
+  
   char buf[128], key[128], value[128], *delim;
   while (fgets(buf, 128, dispinfo)) {
     *(delim = strchr(buf, ':')) = '\0';
@@ -136,11 +137,11 @@ static void get_display_info() {
     sscanf(delim + 1, "%s", value);
     if (strcmp(key, "WIDTH") == 0) sscanf(value, "%d", &screen_w);
     if (strcmp(key, "HEIGHT") == 0) sscanf(value, "%d", &screen_h);
-
+    printf("s=%s",buf);
   }
   fclose(dispinfo);
-//   if(screen_w==0)  screen_w=400;
-//   if(screen_h==0)  screen_h=300;
+  if(screen_w==0)  screen_w=400;
+  if(screen_h==0)  screen_h=300;
   printf("width:%d\nheight:%d\n",screen_w,screen_h);
   assert(screen_w > 0 && screen_h > 0);
 }
