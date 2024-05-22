@@ -1,5 +1,6 @@
 #include "common.h"
 
+int current_game=0;
 #define NAME(key) \
   [_KEY_##key] = #key,
 
@@ -24,6 +25,7 @@ size_t events_read(void *buf, size_t len) {
 	}
     else {
 		sprintf(buf, "%s %s\n", down ? "kd" : "ku", keyname[key]);
+        if(down&&key==13)  current_game=~current_game;
 		// Log("Get key: %d %s %s\n", key, keyname[key], down ? "down" : "up");
 	}
   // Log("event %d", strlen(buf));
