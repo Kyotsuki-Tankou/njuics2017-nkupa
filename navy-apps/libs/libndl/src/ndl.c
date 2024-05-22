@@ -140,9 +140,9 @@ static void get_display_info() {
     printf("s=%s",buf);
   }
   fclose(dispinfo);
-  if(screen_w==0)  screen_w=400;
-  if(screen_h==0)  screen_h=300;
-  printf("11111");
+//   if(screen_w==0)  screen_w=400;
+//   if(screen_h==0)  screen_h=300;
+//   printf("11111");
   assert(screen_w > 0 && screen_h > 0);
 }
 
