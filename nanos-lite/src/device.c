@@ -1,6 +1,5 @@
 #include "common.h"
 
-int current_game=0;
 #define NAME(key) \
   [_KEY_##key] = #key,
 
@@ -8,7 +7,7 @@ static const char *keyname[256] __attribute__((used)) = {
   [_KEY_NONE] = "NONE",
   _KEYS(NAME)
 };
-
+void switch_game();
 size_t events_read(void *buf, size_t len) {
 //   return 0;
     
@@ -18,6 +17,9 @@ size_t events_read(void *buf, size_t len) {
 	if (key & 0x8000) {
 		key ^= 0x8000;
 		down = true;
+        if(down&&key==_KEY_F12)  {
+            switch_game();
+        }
 	}
     if (key == _KEY_NONE) {
 		unsigned long t = _uptime();
@@ -25,9 +27,7 @@ size_t events_read(void *buf, size_t len) {
 	}
     else {
 		sprintf(buf, "%s %s\n", down ? "kd" : "ku", keyname[key]);
-        if(down&&key==13)  {
-            current_game=2-current_game;
-        }
+        
 		// Log("Get key: %d %s %s\n", key, keyname[key], down ? "down" : "up");
 	}
   // Log("event %d", strlen(buf));
