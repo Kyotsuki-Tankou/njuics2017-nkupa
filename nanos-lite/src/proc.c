@@ -26,11 +26,11 @@ void load_prog(const char *filename) {
 static int freq=0;
 _RegSet* schedule(_RegSet *prev) {
   if(current!=NULL)  current->tf=prev;
-  if(current==&pcb[0]&&freq>=10000)
+  if(current==&pcb[current_game]&&freq>=10000)
   {
     freq=0,current=&pcb[1];
   }
-  else  current=(current_game==0?&pcb[0]:&pcb[2]);
+  else  current=&pcb[current_game];
 
   freq++;
   _switch(&current->as);
