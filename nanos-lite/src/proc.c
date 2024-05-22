@@ -23,11 +23,10 @@ void load_prog(const char *filename) {
   stack.end = stack.start + sizeof(pcb[i].stack);
   pcb[i].tf = _umake(&pcb[i].as, stack, stack, (void *)entry, NULL, NULL);
 }
-
+static int freq=0;
 _RegSet* schedule(_RegSet *prev) {
   if(current!=NULL)  current->tf=prev;
-  static int freq=0;
-  if(current==&pcb[0]&&freq==10000)
+  if(current==&pcb[0]&&freq>=10000)
   {
     freq=0,current=&pcb[1];
   }
