@@ -24,6 +24,11 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
   }
   if(sign)  z=-z;
   return z;
+    // long long x=a<<16,y=b;
+    // long long z=x/y;
+    // int res=z;
+    // if(((a^b)&0x80000000)==0x80000000)  res=-res;
+    // return res;
 }
 
 FLOAT f2F(float a) {
